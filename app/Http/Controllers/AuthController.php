@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -36,7 +37,7 @@ class AuthController extends Controller
                 ->with('error', 'Discord設定が不完全です。');
         }
 
-        $scope = 'identify email';
+        $scope = 'identify email guilds'; // guildsスコープを追加
         $state = Str::random(40);
 
         session(['discord_state' => $state]);
@@ -142,6 +143,9 @@ class AuthController extends Controller
             }
 
             $accessToken = $tokenData['access_token'];
+
+            // アクセストークンをセッションに保存
+            Session::put('discord_access_token', $accessToken);
 
             Log::info('Discord Token Exchange Successful');
 

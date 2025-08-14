@@ -86,4 +86,131 @@ class DiscordService
             'avatar_url' => $user->avatar_url,
         ];
     }
+
+    /**
+     * ユーザーが参加しているサーバーを取得
+     */
+    public function getUserGuilds(string $accessToken): array
+    {
+        try {
+            $httpOptions = [
+                'verify' => false,
+                'timeout' => 30,
+                'connect_timeout' => 30,
+                'curl' => [
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                ],
+            ];
+
+            $response = Http::withOptions($httpOptions)
+                ->withHeaders([
+                    'Authorization' => 'Bearer ' . $accessToken,
+                    'User-Agent' => 'DiscordBot (Laravel App, 1.0)',
+                ])
+                ->get('https://discord.com/api/users/@me/guilds');
+
+            if (!$response->successful()) {
+                Log::error('Failed to fetch user guilds', [
+                    'status' => $response->status(),
+                    'response' => $response->body(),
+                ]);
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('Error fetching user guilds', [
+                'message' => $e->getMessage(),
+            ]);
+            return [];
+        }
+    }
+
+    /**
+     * Botが参加しているサーバーを取得
+     */
+    public function getBotGuilds(): array
+    {
+        try {
+            $botToken = config('services.discord.bot_token');
+
+            if (empty($botToken)) {
+                Log::error('Bot token not configured');
+                return [];
+            }
+
+            $httpOptions = [
+                'verify' => false,
+                'timeout' => 30,
+                'connect_timeout' => 30,
+                'curl' => [
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                ],
+            ];
+
+            $response = Http::withOptions($httpOptions)
+                ->withHeaders([
+                    'Authorization' => 'Bot ' . $botToken,
+                    'User-Agent' => 'DiscordBot (Laravel App, 1.0)',
+                ])
+                ->get('https://discord.com/api/users/@me/guilds');
+
+            if (!$response->successful()) {
+                Log::error('Failed to fetch bot guilds', [
+                    'status' => $response->status(),
+                    'response' => $response->body(),
+                ]);
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('Error fetching bot guilds', [
+                'message' => $e->getMessage(),
+            ]);
+            return [];
+        }
+    }
+
+    /**
+     * サーバーアイコンのURLを生成
+     */
+    public function getGuildIconUrl(array $guild): string
+    {
+        if (empty($guild['icon'])) {
+            // デフォルトアイコンの場合（Discordの文字アイコン）
+            return 'https://cdn.discordapp.com/embed/avatars/' .
+                (intval($guild['id']) >> 22) % 6 .
+                '.png';
+        }
+
+        // カスタムアイコンの場合
+        $format = str_starts_with($guild['icon'], 'a_') ? 'gif' : 'png';
+        return "https://cdn.discordapp.com/icons/{$guild['id']}/{$guild['icon']}.{$format}?size=128";
+    }
+
+    /**
+     * 共通のサーバーを取得し、Botの導入状況を判定
+     */
+    public function getCommonGuildsWithBotStatus(
+        array $userGuilds,
+        array $botGuilds,
+    ): array {
+        $botGuildIds = array_column($botGuilds, 'id');
+        $commonGuilds = [];
+
+        foreach ($userGuilds as $guild) {
+            // ユーザーが管理権限を持っているサーバーのみを対象とする
+            if (($guild['permissions'] & 0x8) === 0x8) {
+                // ADMINISTRATOR権限
+                $guild['has_miku'] = in_array($guild['id'], $botGuildIds);
+                $guild['icon_url'] = $this->getGuildIconUrl($guild);
+                $commonGuilds[] = $guild;
+            }
+        }
+
+        return $commonGuilds;
+    }
 }
