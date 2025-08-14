@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('discord_id')->nullable()->unique();
+            $table->string('discord_username')->nullable();
+            $table->string('avatar_url')->nullable();
+            $table->string('email')->nullable()->change();
+            $table->timestamp('email_verified_at')->nullable()->change();
+            $table->string('password')->nullable()->change();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn([
+                'discord_id',
+                'discord_username',
+                'avatar_url',
+            ]);
+            $table->string('email')->nullable(false)->change();
+            $table->timestamp('email_verified_at')->nullable(false)->change();
+            $table->string('password')->nullable(false)->change();
+        });
+    }
+};

@@ -119,4 +119,9 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'http_client' => [
+        'verify_ssl' => env('HTTP_CLIENT_VERIFY_SSL', true),
+        'timeout' => env('HTTP_CLIENT_TIMEOUT', 30),
+    ],
 ];
