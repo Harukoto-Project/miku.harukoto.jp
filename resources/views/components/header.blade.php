@@ -1,33 +1,18 @@
 @props(['avatarUrl'])
 
-<header class="fixed z-[10] h-20 w-full bg-white dark:bg-dark-primary">
-  <div class="top-0 z-[100] h-20 w-full justify-center bg-white py-4 dark:bg-dark-primary flex">
-    <div class="grid grid-cols-3 items-center">
-      <div class="flex items-center px-16">
-        <a href="/" class="cursor-pointer"><span
-            class="bg-gradient-to-r from-blue-800 via-indigo-500 to-sky-400 bg-clip-text text-right font-bold text-transparent">Miku</span></a>
-      </div>
-      <div class="flex w-fit items-center justify-center space-x-8 text-sm font-bold">
-        <a class="cursor-pointer hover:underline" href="/dashboard">
-          ダッシュボード
-        </a>
-        <a class="cursor-pointer hover:underline" href="/features">
-          機能一覧
-        </a>
-        <a class="cursor-pointer hover:underline" href="/commands">
-          コマンド一覧
-        </a>
-        <a class="cursor-pointer hover:underline" href="/terms">
-          利用規約
-        </a>
-        <a class="cursor-pointer hover:underline" href="/privacy-policy">
-          プライバシーポリシー
-        </a>
-      </div>
-      <div class="flex items-center justify-between px-16">
-        <div class="justify-start">
-          <!-- テーマ切り替えToggleスイッチ -->
-          <div x-data="{
+<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+    <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <div class="flex lg:flex-1">
+            <a href="#" class="-m-1.5 p-1.5">
+                <span class="bg-gradient-to-r from-blue-800 via-indigo-500 to-sky-400 bg-clip-text text-right font-bold text-transparent">Miku</span>
+            </a>
+        </div>
+
+        <!-- モバイル用のボタンエリア -->
+        <div class="flex lg:hidden items-center space-x-2">
+            <!-- モバイル用テーマ切り替えボタン -->
+            <div x-data="{
                     theme: localStorage.getItem('theme') || 'light',
                     toggleTheme() {
                         this.theme = this.theme === 'light' ? 'dark' : 'light';
@@ -42,76 +27,165 @@
                         }
                     }
                 }"
-               x-init="applyTheme()"
-               class="relative">
-            <button @click="toggleTheme()"
-                    class="relative flex h-8 w-20 items-center justify-between rounded-full bg-gray-300 dark:bg-gray-600 px-2 py-1 transition-colors duration-300">
-
-              <!-- 背景のテキスト -->
-              <span x-show="theme === 'light'"
-                    x-transition:enter="transition-opacity duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity duration-300"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    class="absolute right-4 text-xs font-bold text-gray-700 dark:text-gray-300">
-                                Light
-                            </span>
-              <span x-show="theme === 'dark'"
-                    x-transition:enter="transition-opacity duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity duration-300"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    class="absolute left-4 text-xs font-bold text-gray-700 dark:text-gray-300">
-                                Dark
-                            </span>
-
-              <!-- 動く丸 -->
-              <div class="absolute h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out"
-                   :class="theme === 'dark' ? 'translate-x-10' : 'translate-x-0'">
-                <!-- アイコン -->
-                <div class="flex h-full w-full items-center justify-center">
-                  <svg x-show="theme === 'light'"
-                       x-transition:enter="transition-opacity duration-200"
-                       x-transition:enter-start="opacity-0"
-                       x-transition:enter-end="opacity-100"
-                       x-transition:leave="transition-opacity duration-200"
-                       x-transition:leave-start="opacity-100"
-                       x-transition:leave-end="opacity-0"
-                       class="h-4 w-4 text-yellow-500"
-                       fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
-                  </svg>
-                  <svg x-show="theme === 'dark'"
-                       x-transition:enter="transition-opacity duration-200"
-                       x-transition:enter-start="opacity-0"
-                       x-transition:enter-end="opacity-100"
-                       x-transition:leave="transition-opacity duration-200"
-                       x-transition:leave-start="opacity-100"
-                       x-transition:leave-end="opacity-0"
-                       class="h-4 w-4 text-gray-700"
-                       fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
-                  </svg>
-                </div>
-              </div>
-            </button>
-          </div>
-        </div>
-        <div class="justify-end text-end">
-          <div class="flex w-full cursor-pointer">
-            <div class="chakra-menu__trigger css-0 flex items-center" data-scope="menu" data-part="trigger"
-                 type="button" dir="ltr" id="menu:«r0»:trigger" data-uid="«r0»" aria-haspopup="menu"
-                 data-state="closed">
-              <img alt="アバター" loading="lazy" class="rounded-full h-10 w-10"
-                   src="{{ $avatarUrl }}">
+                 x-init="applyTheme()">
+                <button @click="toggleTheme()"
+                        class="relative inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                    <span class="sr-only">テーマ切り替え</span>
+                    <!-- 太陽アイコン（ライトモード時） -->
+                    <svg x-show="theme === 'light'"
+                         x-transition:enter="transition-opacity duration-200"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="h-6 w-6 text-amber-500"
+                         fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                    </svg>
+                    <!-- 月アイコン（ダークモード時） -->
+                    <svg x-show="theme === 'dark'"
+                         x-transition:enter="transition-opacity duration-200"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="h-6 w-6 text-slate-400"
+                         fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
+                    </svg>
+                </button>
             </div>
-          </div>
+
+            <!-- モバイルメニューボタン -->
+            <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">
+                <span class="sr-only">Open main menu</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                    <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
         </div>
-      </div>
-    </div>
-  </div>
+
+        <el-popover-group class="hidden lg:flex lg:gap-x-12">
+            <a href="/dashboard" class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">ダッシュボード</a>
+            <a href="/features" class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">機能一覧</a>
+            <a href="/commands" class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">コマンド一覧</a>
+            <a href="/terms" class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">利用規約</a>
+            <a href="/privacy-policy" class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">プライバシーポリシー</a>
+        </el-popover-group>
+
+        <!-- デスクトップ用のボタンエリア -->
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-8">
+            <!-- デスクトップ用テーマ切り替えボタン -->
+            <div x-data="{
+                    theme: localStorage.getItem('theme') || 'light',
+                    toggleTheme() {
+                        this.theme = this.theme === 'light' ? 'dark' : 'light';
+                        localStorage.setItem('theme', this.theme);
+                        this.applyTheme();
+                    },
+                    applyTheme() {
+                        if (this.theme === 'dark') {
+                            document.documentElement.classList.add('dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                        }
+                    }
+                }"
+                 x-init="applyTheme()"
+                 class="relative">
+                <button @click="toggleTheme()"
+                        class="relative flex h-8 w-20 items-center justify-between rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-1 transition-all duration-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+
+                    <!-- 背景のテキスト -->
+                    <span x-show="theme === 'light'"
+                          x-transition:enter="transition-opacity duration-300"
+                          x-transition:enter-start="opacity-0"
+                          x-transition:enter-end="opacity-100"
+                          x-transition:leave="transition-opacity duration-300"
+                          x-transition:leave-start="opacity-100"
+                          x-transition:leave-end="opacity-0"
+                          class="absolute right-2 text-xs font-medium text-gray-600 dark:text-gray-400 select-none pointer-events-none">
+                Light
+          </span>
+                    <span x-show="theme === 'dark'"
+                          x-transition:enter="transition-opacity duration-300"
+                          x-transition:enter-start="opacity-0"
+                          x-transition:enter-end="opacity-100"
+                          x-transition:leave="transition-opacity duration-300"
+                          x-transition:leave-start="opacity-100"
+                          x-transition:leave-end="opacity-0"
+                          class="absolute left-2 text-xs font-medium text-gray-600 dark:text-gray-400 select-none pointer-events-none">
+                Dark
+          </span>
+
+                    <!-- 動く丸 -->
+                    <div class="absolute h-6 w-6 rounded-full bg-white dark:bg-gray-200 shadow-lg transition-all duration-300 ease-in-out border border-gray-300 dark:border-gray-500"
+                         :class="theme === 'dark' ? 'translate-x-10' : 'translate-x-0'">
+                        <!-- アイコン -->
+                        <div class="flex h-full w-full items-center justify-center">
+                            <svg x-show="theme === 'light'"
+                                 x-transition:enter="transition-opacity duration-200"
+                                 x-transition:enter-start="opacity-0"
+                                 x-transition:enter-end="opacity-100"
+                                 x-transition:leave="transition-opacity duration-200"
+                                 x-transition:leave-start="opacity-100"
+                                 x-transition:leave-end="opacity-0"
+                                 class="h-4 w-4 text-amber-500"
+                                 fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                            </svg>
+                            <svg x-show="theme === 'dark'"
+                                 x-transition:enter="transition-opacity duration-200"
+                                 x-transition:enter-start="opacity-0"
+                                 x-transition:enter-end="opacity-100"
+                                 x-transition:leave="transition-opacity duration-200"
+                                 x-transition:leave-start="opacity-100"
+                                 x-transition:leave-end="opacity-0"
+                                 class="h-4 w-4 text-slate-600 dark:text-slate-700"
+                                 fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            <a href="#" class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">ログイン<span aria-hidden="true">&rarr;</span></a>
+        </div>
+    </nav>
+
+    <el-dialog>
+        <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+            <div tabindex="0" class="fixed inset-0 focus:outline-none">
+                <el-dialog-panel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:bg-gray-800 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:sm:ring-gray-100/10 transition-colors duration-300">
+                    <div class="flex items-center justify-between">
+                        <a href="#" class="-m-1.5 p-1.5">
+                            <span class="bg-gradient-to-r from-blue-800 via-indigo-500 to-sky-400 bg-clip-text text-right font-bold text-transparent">Miku</span>
+                        </a>
+                        <button type="button" command="close" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">
+                            <span class="sr-only">Close menu</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                                <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-6 flow-root">
+                        <div class="-my-6 divide-y divide-gray-500/10 dark:divide-gray-400/10">
+                            <div class="space-y-2 py-6">
+                                <a href="/dashboard" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">ダッシュボード</a>
+                                <a href="/features" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">機能一覧</a>
+                                <a href="/commands" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">コマンド一覧</a>
+                                <a href="/terms" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">利用規約</a>
+                                <a href="/privacy-policy" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">プライバシーポリシー</a>
+                            </div>
+                            <div class="py-6">
+                                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">ログイン</a>
+                            </div>
+                        </div>
+                    </div>
+                </el-dialog-panel>
+            </div>
+        </dialog>
+    </el-dialog>
 </header>

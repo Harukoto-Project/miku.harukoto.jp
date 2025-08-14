@@ -19,7 +19,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   @endif
 </head>
-<body>
+<body class="bg-white dark:bg-gray-900 transition-colors duration-300">
 @include('components.header', ['avatarUrl' => 'https://cdn.discordapp.com/avatars/949873067620966490/b178d5be3d02d1263c80002ad20363f1.png'])
 </body>
 </html>
