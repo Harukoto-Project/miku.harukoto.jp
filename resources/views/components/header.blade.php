@@ -1,7 +1,7 @@
 @props(['avatarUrl'])
 
 <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
-<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+<header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-150">
     <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         <div class="flex lg:flex-1">
             <a href="/" class="-m-1.5 p-1.5">
@@ -29,7 +29,7 @@
                 }"
                  x-init="applyTheme()">
                 <button @click="toggleTheme()"
-                        class="relative inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                        class="relative inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     <span class="sr-only">テーマ切り替え</span>
                     <!-- 太陽アイコン（ライトモード時） -->
                     <svg x-show="theme === 'light'"
@@ -96,7 +96,7 @@
                  x-init="applyTheme()"
                  class="relative">
                 <button @click="toggleTheme()"
-                        class="relative flex h-8 w-20 items-center justify-between rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-1 transition-all duration-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                        class="relative flex h-8 w-20 items-center justify-between rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-1 transition-all duration-150 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
 
                     <!-- 背景のテキスト -->
                     <span x-show="theme === 'light'"
@@ -121,7 +121,7 @@
           </span>
 
                     <!-- 動く丸 -->
-                    <div class="absolute h-6 w-6 rounded-full bg-white dark:bg-gray-200 shadow-lg transition-all duration-300 ease-in-out border border-gray-300 dark:border-gray-500"
+                    <div class="absolute h-6 w-6 rounded-full bg-white dark:bg-gray-200 shadow-lg transition-all duration-150 ease-in-out border border-gray-300 dark:border-gray-500"
                          :class="theme === 'dark' ? 'translate-x-10' : 'translate-x-0'">
                         <!-- アイコン -->
                         <div class="flex h-full w-full items-center justify-center">
@@ -158,7 +158,7 @@
                     <!-- ユーザーアバター -->
                     <div class="flex items-center space-x-2">
                         <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="h-8 w-8 rounded-full border border-gray-300 dark:border-gray-600">
-                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ auth()->user()->discord_username }}</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ auth()->user()->discord_display_name ?? auth()->user()->name }}</span>
                     </div>
 
                     <!-- ログアウトボタン -->
@@ -210,7 +210,7 @@
                                     <div class="space-y-2">
                                         <div class="flex items-center space-x-2 px-3 py-2">
                                             <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="h-8 w-8 rounded-full border border-gray-300 dark:border-gray-600">
-                                            <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ auth()->user()->discord_username }}</span>
+                                            <span class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ auth()->user()->discord_display_name ?? auth()->user()->name }}</span>
                                         </div>
                                         <form method="POST" action="{{ route('logout') }}" class="inline-block w-full">
                                             @csrf

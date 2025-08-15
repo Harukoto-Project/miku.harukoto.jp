@@ -21,9 +21,10 @@ class DiscordService
                 Log::info('Creating new user');
 
                 $user = User::create([
-                    'name' => $discordUser['username'],
+                    'name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? $discordUser['username'],
                     'discord_id' => $discordUser['id'],
                     'discord_username' => $discordUser['username'],
+                    'discord_display_name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? null,
                     'email' => $discordUser['email'] ?? null,
                     'avatar_url' => $this->getAvatarUrl($discordUser),
                 ]);
@@ -34,8 +35,9 @@ class DiscordService
 
                 // 既存ユーザーの情報を更新
                 $user->update([
-                    'name' => $discordUser['username'],
+                    'name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? $discordUser['username'],
                     'discord_username' => $discordUser['username'],
+                    'discord_display_name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? null,
                     'avatar_url' => $this->getAvatarUrl($discordUser),
                 ]);
             }
@@ -168,6 +170,55 @@ class DiscordService
             return $response->json();
         } catch (\Exception $e) {
             Log::error('Error fetching bot guilds', [
+                'message' => $e->getMessage(),
+            ]);
+            return [];
+        }
+    }
+
+    /**
+     * ギルドのチャンネル一覧を取得（Botトークン使用）
+     */
+    public function getGuildChannels(string $guildId): array
+    {
+        try {
+            $botToken = config('services.discord.bot_token');
+
+            if (empty($botToken)) {
+                Log::error('Bot token not configured');
+                return [];
+            }
+
+            $httpOptions = [
+                'verify' => false,
+                'timeout' => 30,
+                'connect_timeout' => 30,
+                'curl' => [
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                ],
+            ];
+
+            $response = Http::withOptions($httpOptions)
+                ->withHeaders([
+                    'Authorization' => 'Bot ' . $botToken,
+                    'User-Agent' => 'DiscordBot (Laravel App, 1.0)',
+                ])
+                ->get("https://discord.com/api/guilds/{$guildId}/channels");
+
+            if (!$response->successful()) {
+                Log::error('Failed to fetch guild channels', [
+                    'guild_id' => $guildId,
+                    'status' => $response->status(),
+                    'response' => $response->body(),
+                ]);
+                return [];
+            }
+
+            return $response->json();
+        } catch (\Exception $e) {
+            Log::error('Error fetching guild channels', [
+                'guild_id' => $guildId,
                 'message' => $e->getMessage(),
             ]);
             return [];

@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServerSettingsController;
+use App\Http\Controllers\WelcomerSettingsController;
+use App\Http\Controllers\UserSettingsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +35,17 @@ Route::middleware('auth')->group(function () {
         DashboardController::class,
         'inviteBot',
     ])->name('dashboard.invite-bot');
+
+    // サーバー設定関連のルート
+    Route::get('/server/{guildId}/settings', [ServerSettingsController::class, 'show'])->name('server.settings');
+    
+    // Welcomer設定のAPIルート
+    Route::prefix('api/guild/{guildId}/settings/welcomer')->group(function () {
+        Route::get('/', [WelcomerSettingsController::class, 'getSettings']);
+        Route::put('/join', [WelcomerSettingsController::class, 'updateJoinSettings']);
+        Route::put('/leave', [WelcomerSettingsController::class, 'updateLeaveSettings']);
+        Route::get('/channels', [WelcomerSettingsController::class, 'getChannels']);
+    });
 
     Route::get('/features', function () {
         return view('features');

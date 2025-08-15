@@ -40,4 +40,9 @@ return [
         'redirect_uri' => env('DISCORD_REDIRECT_URI'),
         'bot_token' => env('BOT_CLIENT_TOKEN'),
     ],
+
+    'miku' => [
+        'api_url' => env('MIKU_API_URL'),
+        'api_token' => env('MIKU_API_TOKEN'),
+    ],
 ];
