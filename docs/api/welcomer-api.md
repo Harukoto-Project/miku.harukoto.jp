@@ -17,35 +17,39 @@ Authorization: your-api-token
 指定されたギルドのWelcomer設定を取得します。
 
 **リクエスト**
+
 ```http
 GET /guild/{guildId}/settings/welcomer
 ```
 
 **パラメータ**
-- `guildId` (string, required): DiscordギルドのID
+
+-   `guildId` (string, required): DiscordギルドのID
 
 **レスポンス**
+
 ```json
 {
-  "_id": "mongodb-object-id",
-  "guildId": "123456789012345678",
-  "onJoin": {
-    "channelId": "987654321098765432",
-    "message": "ようこそ！",
-    "isEnabled": true
-  },
-  "onLeave": {
-    "channelId": "987654321098765432",
-    "message": "また来てね！",
-    "isEnabled": true
-  }
+    "_id": "mongodb-object-id",
+    "guildId": "123456789012345678",
+    "onJoin": {
+        "channelId": "987654321098765432",
+        "message": "ようこそ！",
+        "isEnabled": true
+    },
+    "onLeave": {
+        "channelId": "987654321098765432",
+        "message": "また来てね！",
+        "isEnabled": true
+    }
 }
 ```
 
 **エラーレスポンス**
-- `401 Unauthorized`: 認証トークンが無効
-- `404 Not Found`: Welcomer設定が見つからない
-- `500 Internal Server Error`: サーバーエラー
+
+-   `401 Unauthorized`: 認証トークンが無効
+-   `404 Not Found`: Welcomer設定が見つからない
+-   `500 Internal Server Error`: サーバーエラー
 
 ---
 
@@ -54,52 +58,58 @@ GET /guild/{guildId}/settings/welcomer
 参加時のメッセージ設定を更新します。
 
 **リクエスト**
+
 ```http
 PUT /guild/{guildId}/settings/welcomer/join
 ```
 
 **パラメータ**
-- `guildId` (string, required): DiscordギルドのID
+
+-   `guildId` (string, required): DiscordギルドのID
 
 **リクエストボディ**
+
 ```json
 {
-  "channelId": "string",
-  "message": "string",
-  "isEnabled": "boolean"
+    "channelId": "string",
+    "message": "string",
+    "isEnabled": "boolean"
 }
 ```
 
 **フィールド詳細**
-- `channelId` (required): メッセージを送信するチャンネルのID
-- `message` (required): 送信するメッセージ内容
-- `isEnabled` (required): 機能の有効/無効状態
+
+-   `channelId` (required): メッセージを送信するチャンネルのID
+-   `message` (required): 送信するメッセージ内容
+-   `isEnabled` (required): 機能の有効/無効状態
 
 **レスポンス**
+
 ```json
 {
-  "message": "参加時のWelcomer設定を更新しました",
-  "data": {
-    "_id": "mongodb-object-id",
-    "guildId": "123456789012345678",
-    "onJoin": {
-      "channelId": "987654321098765432",
-      "message": "ようこそ！",
-      "isEnabled": true
-    },
-    "onLeave": {
-      "channelId": "987654321098765432",
-      "message": "また来てね！",
-      "isEnabled": true
+    "message": "参加時のWelcomer設定を更新しました",
+    "data": {
+        "_id": "mongodb-object-id",
+        "guildId": "123456789012345678",
+        "onJoin": {
+            "channelId": "987654321098765432",
+            "message": "ようこそ！",
+            "isEnabled": true
+        },
+        "onLeave": {
+            "channelId": "987654321098765432",
+            "message": "また来てね！",
+            "isEnabled": true
+        }
     }
-  }
 }
 ```
 
 **エラーレスポンス**
-- `400 Bad Request`: リクエストボディが不正
-- `401 Unauthorized`: 認証トークンが無効
-- `500 Internal Server Error`: サーバーエラー
+
+-   `400 Bad Request`: リクエストボディが不正
+-   `401 Unauthorized`: 認証トークンが無効
+-   `500 Internal Server Error`: サーバーエラー
 
 ---
 
@@ -108,52 +118,58 @@ PUT /guild/{guildId}/settings/welcomer/join
 退出時のメッセージ設定を更新します。
 
 **リクエスト**
+
 ```http
 PUT /guild/{guildId}/settings/welcomer/leave
 ```
 
 **パラメータ**
-- `guildId` (string, required): DiscordギルドのID
+
+-   `guildId` (string, required): DiscordギルドのID
 
 **リクエストボディ**
+
 ```json
 {
-  "channelId": "string",
-  "message": "string",
-  "isEnabled": "boolean"
+    "channelId": "string",
+    "message": "string",
+    "isEnabled": "boolean"
 }
 ```
 
 **フィールド詳細**
-- `channelId` (required): メッセージを送信するチャンネルのID
-- `message` (required): 送信するメッセージ内容
-- `isEnabled` (required): 機能の有効/無効状態
+
+-   `channelId` (required): メッセージを送信するチャンネルのID
+-   `message` (required): 送信するメッセージ内容
+-   `isEnabled` (required): 機能の有効/無効状態
 
 **レスポンス**
+
 ```json
 {
-  "message": "退出時のWelcomer設定を更新しました",
-  "data": {
-    "_id": "mongodb-object-id",
-    "guildId": "123456789012345678",
-    "onJoin": {
-      "channelId": "987654321098765432",
-      "message": "ようこそ！",
-      "isEnabled": true
-    },
-    "onLeave": {
-      "channelId": "987654321098765432",
-      "message": "また来てね！",
-      "isEnabled": true
+    "message": "退出時のWelcomer設定を更新しました",
+    "data": {
+        "_id": "mongodb-object-id",
+        "guildId": "123456789012345678",
+        "onJoin": {
+            "channelId": "987654321098765432",
+            "message": "ようこそ！",
+            "isEnabled": true
+        },
+        "onLeave": {
+            "channelId": "987654321098765432",
+            "message": "また来てね！",
+            "isEnabled": true
+        }
     }
-  }
 }
 ```
 
 **エラーレスポンス**
-- `400 Bad Request`: リクエストボディが不正
-- `401 Unauthorized`: 認証トークンが無効
-- `500 Internal Server Error`: サーバーエラー
+
+-   `400 Bad Request`: リクエストボディが不正
+-   `401 Unauthorized`: 認証トークンが無効
+-   `500 Internal Server Error`: サーバーエラー
 
 ---
 
@@ -162,12 +178,14 @@ PUT /guild/{guildId}/settings/welcomer/leave
 ### cURLでの使用例
 
 #### 設定の取得
+
 ```bash
 curl -X GET "http://localhost:3000/guild/123456789012345678/settings/welcomer" \
   -H "Authorization: your-api-token"
 ```
 
 #### 参加時の設定を更新
+
 ```bash
 curl -X PUT "http://localhost:3000/guild/123456789012345678/settings/welcomer/join" \
   -H "Authorization: your-api-token" \
@@ -180,6 +198,7 @@ curl -X PUT "http://localhost:3000/guild/123456789012345678/settings/welcomer/jo
 ```
 
 #### 退出時の設定を更新
+
 ```bash
 curl -X PUT "http://localhost:3000/guild/123456789012345678/settings/welcomer/leave" \
   -H "Authorization: your-api-token" \
@@ -200,46 +219,55 @@ const GUILD_ID = '123456789012345678';
 
 // 設定の取得
 async function getWelcomerSettings() {
-  const response = await fetch(`${API_BASE}/guild/${GUILD_ID}/settings/welcomer`, {
-    headers: {
-      'Authorization': API_TOKEN
-    }
-  });
-  return await response.json();
+    const response = await fetch(
+        `${API_BASE}/guild/${GUILD_ID}/settings/welcomer`,
+        {
+            headers: {
+                Authorization: API_TOKEN,
+            },
+        },
+    );
+    return await response.json();
 }
 
 // 参加時の設定を更新
 async function updateJoinWelcomer(channelId, message, isEnabled) {
-  const response = await fetch(`${API_BASE}/guild/${GUILD_ID}/settings/welcomer/join`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': API_TOKEN,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      channelId,
-      message,
-      isEnabled
-    })
-  });
-  return await response.json();
+    const response = await fetch(
+        `${API_BASE}/guild/${GUILD_ID}/settings/welcomer/join`,
+        {
+            method: 'PUT',
+            headers: {
+                Authorization: API_TOKEN,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                channelId,
+                message,
+                isEnabled,
+            }),
+        },
+    );
+    return await response.json();
 }
 
 // 退出時の設定を更新
 async function updateLeaveWelcomer(channelId, message, isEnabled) {
-  const response = await fetch(`${API_BASE}/guild/${GUILD_ID}/settings/welcomer/leave`, {
-    method: 'PUT',
-    headers: {
-      'Authorization': API_TOKEN,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      channelId,
-      message,
-      isEnabled
-    })
-  });
-  return await response.json();
+    const response = await fetch(
+        `${API_BASE}/guild/${GUILD_ID}/settings/welcomer/leave`,
+        {
+            method: 'PUT',
+            headers: {
+                Authorization: API_TOKEN,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                channelId,
+                message,
+                isEnabled,
+            }),
+        },
+    );
+    return await response.json();
 }
 ```
 
@@ -251,17 +279,19 @@ Welcomer設定は以下のMongoDBスキーマで保存されます：
 
 ```typescript
 interface WelcomerDocument {
-  guildId: string;                    // ギルドID（一意）
-  onJoin?: {                          // 参加時の設定
-    channelId: string;                // チャンネルID
-    message: string;                  // メッセージ内容
-    isEnabled: boolean;               // 有効/無効
-  } | null;
-  onLeave?: {                         // 退出時の設定
-    channelId: string;                // チャンネルID
-    message: string;                  // メッセージ内容
-    isEnabled: boolean;               // 有効/無効
-  };
+    guildId: string; // ギルドID（一意）
+    onJoin?: {
+        // 参加時の設定
+        channelId: string; // チャンネルID
+        message: string; // メッセージ内容
+        isEnabled: boolean; // 有効/無効
+    } | null;
+    onLeave?: {
+        // 退出時の設定
+        channelId: string; // チャンネルID
+        message: string; // メッセージ内容
+        isEnabled: boolean; // 有効/無効
+    };
 }
 ```
 
@@ -279,10 +309,10 @@ interface WelcomerDocument {
 
 ## ステータスコード
 
-| コード | 説明 |
-|--------|------|
-| 200 | 成功 |
-| 400 | リクエストが不正 |
-| 401 | 認証が必要 |
-| 404 | リソースが見つからない |
-| 500 | サーバーエラー |
+| コード | 説明                   |
+| ------ | ---------------------- |
+| 200    | 成功                   |
+| 400    | リクエストが不正       |
+| 401    | 認証が必要             |
+| 404    | リソースが見つからない |
+| 500    | サーバーエラー         |

@@ -12,8 +12,10 @@ class WelcomerSettingsController extends Controller
     protected $mikuApiService;
     protected $discordService;
 
-    public function __construct(MikuApiService $mikuApiService, DiscordService $discordService)
-    {
+    public function __construct(
+        MikuApiService $mikuApiService,
+        DiscordService $discordService,
+    ) {
         $this->mikuApiService = $mikuApiService;
         $this->discordService = $discordService;
     }
@@ -57,10 +59,13 @@ class WelcomerSettingsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 400);
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                ],
+                400,
+            );
         }
 
         $data = $request->only(['channelId', 'message', 'isEnabled']);
@@ -74,10 +79,13 @@ class WelcomerSettingsController extends Controller
             ]);
         }
 
-        return response()->json([
-            'success' => false,
-            'message' => '設定の更新に失敗しました',
-        ], 500);
+        return response()->json(
+            [
+                'success' => false,
+                'message' => '設定の更新に失敗しました',
+            ],
+            500,
+        );
     }
 
     /**
@@ -92,10 +100,13 @@ class WelcomerSettingsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors(),
-            ], 400);
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                ],
+                400,
+            );
         }
 
         $data = $request->only(['channelId', 'message', 'isEnabled']);
@@ -109,10 +120,13 @@ class WelcomerSettingsController extends Controller
             ]);
         }
 
-        return response()->json([
-            'success' => false,
-            'message' => '設定の更新に失敗しました',
-        ], 500);
+        return response()->json(
+            [
+                'success' => false,
+                'message' => '設定の更新に失敗しました',
+            ],
+            500,
+        );
     }
 
     /**
@@ -122,16 +136,21 @@ class WelcomerSettingsController extends Controller
     {
         $channels = $this->discordService->getGuildChannels($guildId);
         // テキストチャンネルのみ、最低限の情報で返却
-        $filtered = array_values(array_map(function ($ch) {
-            return [
-                'id' => $ch['id'],
-                'name' => $ch['name'],
-                'type' => $ch['type'],
-            ];
-        }, array_filter($channels, function ($ch) {
-            // Discordのテキストチャンネル type=0
-            return isset($ch['type']) && $ch['type'] === 0;
-        })));
+        $filtered = array_values(
+            array_map(
+                function ($ch) {
+                    return [
+                        'id' => $ch['id'],
+                        'name' => $ch['name'],
+                        'type' => $ch['type'],
+                    ];
+                },
+                array_filter($channels, function ($ch) {
+                    // Discordのテキストチャンネル type=0
+                    return isset($ch['type']) && $ch['type'] === 0;
+                }),
+            ),
+        );
 
         return response()->json([
             'channels' => $filtered,

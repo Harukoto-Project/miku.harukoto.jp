@@ -61,11 +61,11 @@
                         </div>
                     </div>
                     
-                    <div class="mt-6">
-                        <a href="#" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200">
-                            アカウント設定
-                        </a>
-                    </div>
+                                    <div class="mt-6">
+                    <a href="{{ route('user.settings') }}" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200">
+                        アカウント設定
+                    </a>
+                </div>
                 </div>
             </div>
         </div>

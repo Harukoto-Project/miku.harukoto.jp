@@ -21,10 +21,15 @@ class DiscordService
                 Log::info('Creating new user');
 
                 $user = User::create([
-                    'name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? $discordUser['username'],
+                    'name' =>
+                        $discordUser['display_name'] ??
+                        ($discordUser['global_name'] ??
+                            $discordUser['username']),
                     'discord_id' => $discordUser['id'],
                     'discord_username' => $discordUser['username'],
-                    'discord_display_name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? null,
+                    'discord_display_name' =>
+                        $discordUser['display_name'] ??
+                        ($discordUser['global_name'] ?? null),
                     'email' => $discordUser['email'] ?? null,
                     'avatar_url' => $this->getAvatarUrl($discordUser),
                 ]);
@@ -35,9 +40,14 @@ class DiscordService
 
                 // 既存ユーザーの情報を更新
                 $user->update([
-                    'name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? $discordUser['username'],
+                    'name' =>
+                        $discordUser['display_name'] ??
+                        ($discordUser['global_name'] ??
+                            $discordUser['username']),
                     'discord_username' => $discordUser['username'],
-                    'discord_display_name' => $discordUser['display_name'] ?? $discordUser['global_name'] ?? null,
+                    'discord_display_name' =>
+                        $discordUser['display_name'] ??
+                        ($discordUser['global_name'] ?? null),
                     'avatar_url' => $this->getAvatarUrl($discordUser),
                 ]);
             }
