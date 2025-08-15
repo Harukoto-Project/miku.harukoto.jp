@@ -29,7 +29,7 @@
                 }"
                  x-init="applyTheme()">
                 <button @click="toggleTheme()"
-                        class="relative inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                        class="relative inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-150 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     <span class="sr-only">テーマ切り替え</span>
                     <!-- 太陽アイコン（ライトモード時） -->
                     <svg x-show="theme === 'light'"
@@ -96,7 +96,7 @@
                  x-init="applyTheme()"
                  class="relative">
                 <button @click="toggleTheme()"
-                        class="relative flex h-8 w-20 items-center justify-between rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-1 transition-all duration-150 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                        class="relative flex h-8 w-20 items-center justify-between rounded-full bg-gray-200 dark:bg-gray-700 px-2 py-1 transition-all duration-150 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
 
                     <!-- 背景のテキスト -->
                     <span x-show="theme === 'light'"
@@ -106,7 +106,7 @@
                           x-transition:leave="transition-opacity duration-300"
                           x-transition:leave-start="opacity-100"
                           x-transition:leave-end="opacity-0"
-                          class="absolute right-2 text-xs font-medium text-gray-600 dark:text-gray-400 select-none pointer-events-none">
+                          class="absolute right-4 text-xs font-medium text-gray-600 dark:text-gray-400 select-none pointer-events-none">
                 Light
           </span>
                     <span x-show="theme === 'dark'"
@@ -116,7 +116,7 @@
                           x-transition:leave="transition-opacity duration-300"
                           x-transition:leave-start="opacity-100"
                           x-transition:leave-end="opacity-0"
-                          class="absolute left-2 text-xs font-medium text-gray-600 dark:text-gray-400 select-none pointer-events-none">
+                          class="absolute left-4 text-xs font-medium text-gray-600 dark:text-gray-400 select-none pointer-events-none">
                 Dark
           </span>
 
