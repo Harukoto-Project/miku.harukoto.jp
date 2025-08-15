@@ -123,17 +123,37 @@ class DiscordService
                 ->get('https://discord.com/api/users/@me/guilds');
 
             if (!$response->successful()) {
+                $statusCode = $response->status();
+                $responseBody = $response->body();
+                
                 Log::error('Failed to fetch user guilds', [
-                    'status' => $response->status(),
-                    'response' => $response->body(),
+                    'status' => $statusCode,
+                    'response' => $responseBody,
                 ]);
+
+                // 401 Unauthorized の場合は、トークンが期限切れまたは無効
+                if ($statusCode === 401) {
+                    Log::warning('Discord access token expired or invalid', [
+                        'status' => $statusCode,
+                        'response' => $responseBody,
+                    ]);
+                }
+
                 return [];
             }
 
-            return $response->json();
+            $guilds = $response->json();
+            
+            Log::info('User guilds retrieved successfully', [
+                'guild_count' => count($guilds),
+            ]);
+
+            return $guilds;
         } catch (\Exception $e) {
             Log::error('Error fetching user guilds', [
                 'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ]);
             return [];
         }

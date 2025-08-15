@@ -88,18 +88,49 @@
                  x-transition:enter-start="opacity-0 transform translate-y-8"
                  x-transition:enter-end="opacity-100 transform translate-y-0">
                 <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 border border-gray-200 dark:border-gray-700">
-                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">サーバーが見つかりませんでした</h3>
-                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        管理者権限を持つDiscordサーバーがないか、権限の再取得が必要です。
-                    </p>
-                    <div class="mt-6">
-                        <a href="{{ route('discord.login') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
-                            権限を再取得する
-                        </a>
-                    </div>
+                    @if(!$hasDiscordToken)
+                        <!-- Discordアクセストークンが存在しない場合 -->
+                        <svg class="mx-auto h-12 w-12 text-red-400 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">Discord認証が必要です</h3>
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            サーバー情報を取得するために、Discordアカウントでの再認証が必要です。
+                        </p>
+                        <div class="mt-6">
+                            <a href="{{ route('discord.login') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
+                                Discordで再認証する
+                            </a>
+                        </div>
+                    @elseif($tokenError)
+                        <!-- トークンエラーが発生した場合 -->
+                        <svg class="mx-auto h-12 w-12 text-orange-400 dark:text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">サーバー情報の取得に失敗しました</h3>
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            一時的なエラーが発生しました。再度認証を行ってください。
+                        </p>
+                        <div class="mt-6">
+                            <a href="{{ route('discord.login') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 transition-colors duration-200">
+                                再度認証する
+                            </a>
+                        </div>
+                    @else
+                        <!-- 管理者権限を持つサーバーがない場合 -->
+                        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">サーバーが見つかりませんでした</h3>
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            管理者権限を持つDiscordサーバーがないか、権限の再取得が必要です。
+                        </p>
+                        <div class="mt-6">
+                            <a href="{{ route('discord.login') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
+                                権限を再取得する
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         @else

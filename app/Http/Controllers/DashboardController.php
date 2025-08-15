@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\DiscordService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -26,37 +27,64 @@ class DashboardController extends Controller
         // セッションからDiscordアクセストークンを取得
         $discordToken = Session::get('discord_access_token');
 
+        // Discordアクセストークンが存在しない場合のログ出力
+        if (!$discordToken) {
+            Log::warning('Discord access token not found in session', [
+                'user_id' => $user->id ?? 'unknown',
+                'session_id' => $request->session()->getId(),
+            ]);
+        }
+
         // DiscordServiceから管理可能なサーバー一覧を取得
         $guilds = [];
+        $tokenError = false;
+        
         if ($user && $discordToken) {
-            $allGuilds = $this->discordService->getUserGuilds($discordToken);
-            $botGuilds = $this->discordService->getBotGuilds();
+            try {
+                $allGuilds = $this->discordService->getUserGuilds($discordToken);
+                $botGuilds = $this->discordService->getBotGuilds();
 
-            // Botが参加しているサーバーIDの配列
-            $botGuildIds = array_column($botGuilds, 'id');
+                // Botが参加しているサーバーIDの配列
+                $botGuildIds = array_column($botGuilds, 'id');
 
-            // サーバーごとに必要な情報を整形
-            foreach ($allGuilds as $guild) {
-                // 管理者権限を持つサーバーのみ
-                if (
-                    isset($guild['permissions']) &&
-                    ($guild['permissions'] & 0x20) === 0x20
-                ) {
-                    $guilds[] = [
-                        'id' => $guild['id'],
-                        'name' => $guild['name'],
-                        'icon_url' => !empty($guild['icon'])
-                            ? "https://cdn.discordapp.com/icons/{$guild['id']}/{$guild['icon']}.png?size=128"
-                            : 'https://cdn.discordapp.com/embed/avatars/0.png',
-                        'has_miku' => in_array($guild['id'], $botGuildIds),
-                    ];
+                // サーバーごとに必要な情報を整形
+                foreach ($allGuilds as $guild) {
+                    // 管理者権限を持つサーバーのみ
+                    if (
+                        isset($guild['permissions']) &&
+                        ($guild['permissions'] & 0x20) === 0x20
+                    ) {
+                        $guilds[] = [
+                            'id' => $guild['id'],
+                            'name' => $guild['name'],
+                            'icon_url' => !empty($guild['icon'])
+                                ? "https://cdn.discordapp.com/icons/{$guild['id']}/{$guild['icon']}.png?size=128"
+                                : 'https://cdn.discordapp.com/embed/avatars/0.png',
+                            'has_miku' => in_array($guild['id'], $botGuildIds),
+                        ];
+                    }
                 }
+
+                Log::info('Guilds retrieved successfully', [
+                    'user_id' => $user->id,
+                    'guild_count' => count($guilds),
+                    'total_guilds' => count($allGuilds),
+                ]);
+
+            } catch (\Exception $e) {
+                Log::error('Error retrieving guilds', [
+                    'user_id' => $user->id,
+                    'error' => $e->getMessage(),
+                ]);
+                $tokenError = true;
             }
         }
 
         return view('dashboard', [
             'user' => $user,
             'guilds' => $guilds,
+            'tokenError' => $tokenError,
+            'hasDiscordToken' => !empty($discordToken),
         ]);
     }
 
