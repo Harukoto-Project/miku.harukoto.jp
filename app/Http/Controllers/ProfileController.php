@@ -515,4 +515,34 @@ class ProfileController extends Controller
             );
         }
     }
+
+    /**
+     * プロフィールを削除
+     */
+    public function destroy(Request $request): JsonResponse
+    {
+        try {
+            $user = $request->user();
+            $profile = $this->profileService->deleteProfile($user->id);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile deleted successfully',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Profile deletion failed', [
+                'user_id' => $user->id ?? 'unknown',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json(
+                [
+                    'error' => 'Failed to delete profile',
+                    'message' => $e->getMessage(),
+                ],
+                400,
+            );
+        }
+    }
 }

@@ -498,4 +498,43 @@ class ProfileService
             throw $e;
         }
     }
+
+    /**
+     * プロフィールを削除
+     */
+    public function deleteProfile(string $userId): void
+    {
+        try {
+            $profile = Profile::byUserId($userId)->first();
+
+            if (!$profile) {
+                throw new \Exception('Profile not found');
+            }
+
+            DB::transaction(function () use ($profile) {
+                // 関連するリンクとテーマを削除
+                $profile->links()->delete();
+                $profile->theme()->delete();
+
+                // アバターが存在する場合は削除
+                if ($profile->avatar_url) {
+                    $this->deleteOldAvatar($profile->avatar_url);
+                }
+
+                // プロフィール自体を削除
+                $profile->delete();
+            });
+
+            Log::info('Profile deleted successfully', [
+                'user_id' => $userId,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to delete profile', [
+                'user_id' => $userId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
+    }
 }

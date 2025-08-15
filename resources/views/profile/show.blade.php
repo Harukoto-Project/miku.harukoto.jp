@@ -105,6 +105,21 @@
 </head>
 <body class="h-full">
     <div class="min-h-screen gradient-bg flex items-center justify-center p-4 transition-colors duration-300">
+        <!-- PRメッセージ -->
+        <div class="absolute top-8 left-1/2 transform -translate-x-1/2 z-10">
+            <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <a href="/user-settings">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-200">
+                            Harukoto Projectでオリジナルポートフォリオを作ろう！
+                        </span>
+                    </a>
+                    <i class="fas fa-arrow-up text-green-500 text-lg animate-bounce"></i>
+                </div>
+            </div>
+        </div>
+        
         <div class="profile-card hover:shadow-3xl flex w-full max-w-[40rem] flex-col justify-center rounded-xl p-6 pt-8 text-center shadow-2xl backdrop-blur-sm transition-all duration-500">
             <div class="flex flex-col items-center justify-center">
                 <!-- アバター -->

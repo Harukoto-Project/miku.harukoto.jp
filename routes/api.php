@@ -27,6 +27,7 @@ Route::middleware('auth:web')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::post('/profile', [ProfileController::class, 'store']);
     Route::post('/profile/create', [ProfileController::class, 'store']); // 後方互換性のため残す
+    Route::delete('/profile', [ProfileController::class, 'destroy']);
 
     // リンク管理
     Route::put('/profile/links', [ProfileController::class, 'updateLinks']);
