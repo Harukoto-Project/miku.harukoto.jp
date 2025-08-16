@@ -67,28 +67,6 @@
             >
         </div>
 
-        <!-- テーマカラー -->
-        <div>
-            <label for="theme_color" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                テーマカラー
-            </label>
-            <div class="flex items-center space-x-3">
-                <input 
-                    type="color" 
-                    id="theme_color" 
-                    name="theme_color" 
-                    x-model="form.theme_color"
-                    class="h-10 w-20 border border-gray-300 dark:border-gray-600 rounded-md cursor-pointer"
-                >
-                <input 
-                    type="text" 
-                    x-model="form.theme_color"
-                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-gray-100"
-                    placeholder="#3B82F6"
-                >
-            </div>
-        </div>
-
         <!-- テーマエディター -->
         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
             <div class="mb-4">
