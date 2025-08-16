@@ -5,6 +5,78 @@
     </div>
 
     <form @submit.prevent="updateProfile" class="space-y-6">
+        <!-- アバター設定 -->
+        <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">アバター設定</h3>
+            <div class="flex items-center space-x-6">
+                <!-- 現在のアバター表示 -->
+                <div class="flex-shrink-0">
+                    <div class="relative group">
+                        <img 
+                            :src="avatarUrl || '{{ $user->profile->avatar_path ? Storage::disk("minio")->url($user->profile->avatar_path) : ($user->avatar_url ?? "/images/default-avatar.svg") }}'" 
+                            alt="アバター" 
+                            class="h-24 w-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
+                            x-on:error="avatarUrl = '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}'"
+                        >
+                        <!-- 削除ボタン（右上に×マーク） -->
+                        <button 
+                            x-show="avatarUrl && avatarUrl !== '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}'"
+                            type="button" 
+                            @click="removeAvatar"
+                            class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-200 opacity-0 group-hover:opacity-100"
+                            title="アバターを削除"
+                        >
+                            ×
+                        </button>
+                        <!-- ローディング表示 -->
+                        <div x-show="avatarLoading" class="absolute inset-0 bg-gray-900 bg-opacity-50 rounded-full flex items-center justify-center">
+                            <svg class="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- アバターアップロード -->
+                <div class="flex-1">
+                    <div class="space-y-3">
+                        <div>
+                            <label for="avatar" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                アバター画像
+                            </label>
+                            <!-- ドラッグアンドドロップエリア -->
+                            <div 
+                                x-ref="dropZone"
+                                @dragover.prevent="dropZone.classList.add('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/20')"
+                                @dragleave.prevent="dropZone.classList.remove('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/20')"
+                                @drop.prevent="handleDrop($event)"
+                                class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500 cursor-pointer"
+                                @click="$refs.avatarInput.click()"
+                            >
+                                <input 
+                                    x-ref="avatarInput"
+                                    type="file" 
+                                    accept="image/*"
+                                    @change="handleAvatarUpload"
+                                    class="hidden"
+                                >
+                                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                    <span class="font-medium text-indigo-600 dark:text-indigo-400">クリック</span>またはファイルをドラッグ&ドロップ
+                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                    JPG、PNG、GIF形式の画像をアップロードできます。最大2MBまで。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 表示名 -->
         <div>
             <label for="display_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -607,10 +679,57 @@
             <div class="flex-shrink-0">
                 <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-    </svg>
+                </svg>
             </div>
             <div class="ml-3">
                 <p class="text-sm text-red-800 dark:text-red-200" x-text="errorMessage"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- アバター削除確認モーダル -->
+    <div x-show="showDeleteModal" x-transition class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- 背景オーバーレイ -->
+            <div class="fixed inset-0 bg-black opacity-75 z-40" @click="showDeleteModal = false"></div>
+
+            <!-- モーダルコンテンツ -->
+            <div class="relative z-50 inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+                                アバターを削除
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    現在のアバター画像を削除しますか？この操作は元に戻すことができません。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button 
+                        type="button" 
+                        @click="confirmDeleteAvatar"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    >
+                        削除する
+                    </button>
+                    <button 
+                        type="button" 
+                        @click="showDeleteModal = false"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    >
+                        キャンセル
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -624,6 +743,9 @@ function profileForm() {
         error: false,
         successMessage: '',
         errorMessage: '',
+        avatarLoading: false,
+        showDeleteModal: false,
+        avatarUrl: '{{ $user->profile->avatar_path ? Storage::disk("minio")->url($user->profile->avatar_path) : ($user->avatar_url ?? "/images/default-avatar.svg") }}',
         form: {
             display_name: '{{ $user->profile->display_name ?? "" }}',
             bio: '{{ $user->profile->bio ?? "" }}',
@@ -651,13 +773,11 @@ function profileForm() {
         },
         
         init() {
-            
             // グラデーション設定の初期化（文字列の場合はJSON.parseで変換）
             if (typeof this.form.card_gradient_stops === 'string') {
                 try {
                     this.form.card_gradient_stops = JSON.parse(this.form.card_gradient_stops);
                 } catch (e) {
-                    console.error('Error parsing card_gradient_stops:', e);
                     this.form.card_gradient_stops = [];
                 }
             }
@@ -665,7 +785,6 @@ function profileForm() {
                 try {
                     this.form.page_gradient_stops = JSON.parse(this.form.page_gradient_stops);
                 } catch (e) {
-                    console.error('Error parsing page_gradient_stops:', e);
                     this.form.page_gradient_stops = [];
                 }
             }
@@ -673,7 +792,6 @@ function profileForm() {
                 try {
                     this.form.bio_card_gradient_stops = JSON.parse(this.form.bio_card_gradient_stops);
                 } catch (e) {
-                    console.error('Error parsing bio_card_gradient_stops:', e);
                     this.form.bio_card_gradient_stops = [];
                 }
             }
@@ -711,7 +829,10 @@ function profileForm() {
                 this.form.bio_card_gradient_direction = '0deg';
             }
             
-
+            // アバターURLの初期化
+            if (!this.avatarUrl || this.avatarUrl === '') {
+                this.avatarUrl = '{{ $user->profile->avatar_path ? Storage::disk("minio")->url($user->profile->avatar_path) : ($user->avatar_url ?? "/images/default-avatar.svg") }}';
+            }
         },
         
         // テーマテンプレートを適用
@@ -1004,7 +1125,182 @@ function profileForm() {
 
             const gradient = `linear-gradient(${direction}, ${stops.map(stop => `${stop.color} ${stop.position}%`).join(', ')})`;
             return `background: ${gradient}`;
-        }
+        },
+
+        // アバターアップロード処理
+        async handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // ファイルサイズチェック（2MB）
+            if (file.size > 2 * 1024 * 1024) {
+                this.error = true;
+                this.errorMessage = 'ファイルサイズは2MB以下にしてください';
+                setTimeout(() => this.error = false, 5000);
+                return;
+            }
+
+            // ファイル形式チェック
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                this.error = true;
+                this.errorMessage = 'JPG、PNG、GIF形式の画像のみアップロードできます';
+                setTimeout(() => this.error = false, 5000);
+                return;
+            }
+
+            this.avatarLoading = true;
+            this.error = false;
+
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            // CSRFトークンの取得
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            if (!csrfToken) {
+                this.error = true;
+                this.errorMessage = 'セキュリティトークンが見つかりません';
+                this.avatarLoading = false;
+                return;
+            }
+
+            try {
+                const response = await fetch('/profile/avatar/upload', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: formData
+                });
+
+                let data;
+                try {
+                    data = await response.json();
+                } catch (parseError) {
+                    throw new Error('サーバーからの応答が不正です');
+                }
+
+                if (response.ok) {
+                    // アバターURLを更新
+                    this.avatarUrl = data.avatar_url;
+                    
+                    // 成功メッセージを表示
+                    this.success = true;
+                    this.successMessage = data.message || 'アバターがアップロードされました';
+                    setTimeout(() => this.success = false, 5000);
+                    
+                    // アバター画像の表示を即座に更新
+                    const avatarImg = this.$el.querySelector('img[alt="アバター"]');
+                    if (avatarImg) {
+                        avatarImg.src = data.avatar_url;
+                    }
+                } else {
+                    this.error = true;
+                    this.errorMessage = data.message || `アップロードに失敗しました (${response.status})`;
+                }
+            } catch (err) {
+                this.error = true;
+                this.errorMessage = 'ネットワークエラーが発生しました: ' + err.message;
+            } finally {
+                this.avatarLoading = false;
+                // ファイル入力をリセット
+                event.target.value = '';
+            }
+        },
+
+        // ドラッグアンドドロップ処理
+        handleDrop(event) {
+            event.preventDefault();
+            
+            // ドラッグアンドドロップエリアのスタイルを元に戻す
+            const dropZone = this.$refs.dropZone;
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/20');
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                
+                // ファイル形式チェック
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+                if (!allowedTypes.includes(file.type)) {
+                    this.error = true;
+                    this.errorMessage = 'JPG、PNG、GIF形式の画像のみアップロードできます';
+                    setTimeout(() => this.error = false, 5000);
+                    return;
+                }
+                
+                // ファイルサイズチェック（2MB）
+                if (file.size > 2 * 1024 * 1024) {
+                    this.error = true;
+                    this.errorMessage = 'ファイルサイズは2MB以下にしてください';
+                    setTimeout(() => this.error = false, 5000);
+                    return;
+                }
+                
+                // ファイル入力を更新してアップロード処理を実行
+                const input = this.$refs.avatarInput;
+                input.files = files;
+                this.handleAvatarUpload({ target: { files: files } });
+            }
+        },
+
+        // アバター削除モーダルを表示
+        removeAvatar() {
+            this.showDeleteModal = true;
+        },
+
+        // アバター削除を実行
+        async confirmDeleteAvatar() {
+            this.showDeleteModal = false;
+            this.avatarLoading = true;
+            
+            // CSRFトークンの取得
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            if (!csrfToken) {
+                this.error = true;
+                this.errorMessage = 'セキュリティトークンが見つかりません';
+                this.avatarLoading = false;
+                return;
+            }
+
+            try {
+                const response = await fetch('/profile/avatar/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+
+                if (response.ok) {
+                    this.avatarUrl = '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}';
+                    this.success = true;
+                    this.successMessage = 'アバターが削除されました';
+                    setTimeout(() => this.success = false, 5000);
+                    
+                    // アバター画像の表示を即座に更新
+                    const avatarImg = this.$el.querySelector('img[alt="アバター"]');
+                    if (avatarImg) {
+                        avatarImg.src = '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}';
+                    }
+                } else {
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch (parseError) {
+                        data = {};
+                    }
+                    
+                    this.error = true;
+                    this.errorMessage = data.message || `アバターの削除に失敗しました (${response.status})`;
+                }
+            } catch (err) {
+                this.error = true;
+                this.errorMessage = 'ネットワークエラーが発生しました: ' + err.message;
+            } finally {
+                this.avatarLoading = false;
+            }
+        },
     }
 }
 </script>

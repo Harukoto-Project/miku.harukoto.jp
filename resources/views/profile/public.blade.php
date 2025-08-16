@@ -11,6 +11,10 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -149,12 +153,13 @@
         <div class="hover:shadow-3xl flex w-full max-w-[40rem] flex-col justify-center rounded-xl p-6 pt-8 text-center shadow-2xl backdrop-blur-sm transition-all duration-500 theme-gradient">
             <div class="flex flex-col items-center justify-center">
                 <!-- アバター -->
-                <div class="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105">
+                <div class="relative h-32 w-32 overflow-hidden rounded-full border-4 border-white shadow-lg transition-transform duration-300 hover:scale-105" x-data="{}">
                     <img 
-                        src="{{ $profile->custom_avatar ?? $profile->user->avatar_url }}" 
+                        src="{{ $profile->avatar_path ? Storage::disk('minio')->url($profile->avatar_path) : ($profile->custom_avatar ?? $profile->user->avatar_url ?? '/images/default-avatar.svg') }}" 
                         alt="{{ $profile->display_name ?? $profile->user->discord_display_name ?? $profile->user->name }} Avatar" 
                         class="object-cover transition-transform duration-300 hover:scale-110"
                         style="position: absolute; height: 100%; width: 100%; inset: 0px;"
+                        x-on:error="this.src='{{ $profile->user->avatar_url ?? "/images/default-avatar.svg" }}'"
                     >
                 </div>
 

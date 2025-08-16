@@ -6,6 +6,8 @@ use App\Models\UserProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -48,9 +50,33 @@ class ProfileController extends Controller
             'bio_card_gradient_stops' => 'nullable|string',
             'bio_card_gradient_direction' => 'nullable|string|max:20',
             'is_public' => 'boolean',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $user = Auth::user();
+
+        // アバターアップロード処理
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $filename =
+                'avatar_' .
+                $user->id .
+                '_' .
+                time() .
+                '.' .
+                $avatar->getClientOriginalExtension();
+
+            // 古いアバターを削除
+            if ($user->profile && $user->profile->avatar_path) {
+                Storage::disk('minio')->delete($user->profile->avatar_path);
+            }
+
+            // 新しいアバターをMinIOにアップロード
+            $path = $avatar->storeAs('avatars', $filename, 'minio');
+
+            // プロフィールデータにアバターパスを追加
+            $profileData['avatar_path'] = $path;
+        }
 
         $profileData = $request->only([
             'display_name',
@@ -77,6 +103,11 @@ class ProfileController extends Controller
             'bio_card_gradient_direction',
             'is_public',
         ]);
+
+        // アバターパスが設定されている場合は追加
+        if (isset($profileData['avatar_path'])) {
+            $profileData['avatar_path'] = $profileData['avatar_path'];
+        }
 
         // グラデーション設定のデータを検証
         foreach (
@@ -213,5 +244,77 @@ class ProfileController extends Controller
         }
 
         return view('profile.public', compact('profile'));
+    }
+
+    /**
+     * Upload user avatar.
+     */
+    public function uploadAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $avatar = $request->file('avatar');
+        $extension = $avatar->getClientOriginalExtension();
+        $hash = hash('sha256', time() . random_bytes(16));
+        $filename = $hash . '.' . $extension;
+
+        // 古いアバターを削除
+        if ($user->profile && $user->profile->avatar_path) {
+            Storage::disk('minio')->delete($user->profile->avatar_path);
+        }
+
+        // 新しいアバターをMinIOにアップロード
+        $path = $avatar->storeAs('avatars', $filename, 'minio');
+
+        if ($path === false) {
+            throw new \Exception('Avatar upload failed');
+        }
+
+        // プロフィールを更新または作成
+        $profile = $user
+            ->profile()
+            ->updateOrCreate(
+                ['user_id' => $user->id],
+                ['avatar_path' => $path],
+            );
+
+        // レスポンス用のURLを構築
+        $avatarUrl = Storage::disk('minio')->url($path);
+
+        return response()->json([
+            'message' => 'アバターがアップロードされました',
+            'avatar_path' => $path,
+            'avatar_url' => $avatarUrl,
+        ]);
+    }
+
+    /**
+     * Remove user avatar.
+     */
+    public function removeAvatar(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->profile && $user->profile->avatar_path) {
+            // MinIOからファイルを削除
+            Storage::disk('minio')->delete($user->profile->avatar_path);
+
+            // データベースからパスを削除
+            $user->profile()->update(['avatar_path' => null]);
+
+            return response()->json([
+                'message' => 'アバターが削除されました',
+            ]);
+        }
+
+        return response()->json(
+            [
+                'message' => 'アバターが設定されていません',
+            ],
+            404,
+        );
     }
 }

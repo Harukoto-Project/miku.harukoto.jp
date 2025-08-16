@@ -34,6 +34,7 @@ class UserProfile extends Model
         'bio_card_gradient_stops',
         'bio_card_gradient_direction',
         'custom_avatar',
+        'avatar_path',
         'is_public',
     ];
 

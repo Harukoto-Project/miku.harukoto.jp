@@ -57,6 +57,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name(
         'profile.update',
     );
+    Route::post('/profile/avatar/upload', [
+        ProfileController::class,
+        'uploadAvatar',
+    ])->name('profile.avatar.upload');
+    Route::post('/profile/avatar/remove', [
+        ProfileController::class,
+        'removeAvatar',
+    ])->name('profile.avatar.remove');
 
     // サーバー設定関連のルート
     Route::get('/server/{guildId}/settings', [
