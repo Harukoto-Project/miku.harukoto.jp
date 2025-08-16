@@ -29,6 +29,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\Illuminate\Session\Middleware\StartSession::class);
         $middleware->append(\Illuminate\Cookie\Middleware\EncryptCookies::class);
         $middleware->append(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
+        
+        // セッションの永続化を確実にする
+        $middleware->append(\Illuminate\Session\Middleware\AuthenticateSession::class);
+        
+        // セッションの永続化を確実にするための追加設定
+        $middleware->append(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

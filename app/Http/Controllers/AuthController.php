@@ -146,8 +146,16 @@ class AuthController extends Controller
 
             // アクセストークンをセッションに保存
             Session::put('discord_access_token', $accessToken);
-
-            Log::info('Discord Token Exchange Successful');
+            
+            // セッションを明示的に保存
+            session()->save();
+            
+            // セッションの状態を詳しくログ出力
+            Log::info('Discord Token Exchange Successful', [
+                'access_token_length' => strlen($accessToken),
+                'session_id' => session()->getId(),
+                'session_data' => session()->all(),
+            ]);
 
             // ユーザー情報取得（同じSSL設定を使用）
             $userResponse = Http::withOptions($httpOptions)
@@ -201,6 +209,14 @@ class AuthController extends Controller
 
             // セッションから不要な情報を削除
             session()->forget(['url.intended', 'discord_state']);
+
+            // セッションの状態を確認
+            Log::info('Session state after login', [
+                'session_id' => session()->getId(),
+                'has_discord_token' => Session::has('discord_access_token'),
+                'discord_token_length' => Session::has('discord_access_token') ? strlen(Session::get('discord_access_token')) : 0,
+                'session_data' => session()->all(),
+            ]);
 
             // ログイン後のリダイレクト（明示的にダッシュボードに設定）
             return redirect()->intended(route('dashboard'))

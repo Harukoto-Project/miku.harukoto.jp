@@ -27,6 +27,24 @@ class DashboardController extends Controller
         // セッションからDiscordアクセストークンを取得
         $discordToken = Session::get('discord_access_token');
 
+        // セッションの状態を詳しくログ出力
+        Log::info('Dashboard session state', [
+            'user_id' => $user->id ?? 'unknown',
+            'session_id' => $request->session()->getId(),
+            'has_discord_token' => !empty($discordToken),
+            'discord_token_length' => $discordToken ? strlen($discordToken) : 0,
+            'all_session_keys' => array_keys($request->session()->all()),
+            'session_data' => $request->session()->all(),
+        ]);
+
+        // Discordアクセストークンが存在しない場合のログ出力
+        if (!$discordToken) {
+            Log::warning('Discord access token not found in session', [
+                'user_id' => $user->id ?? 'unknown',
+                'session_id' => $request->session()->getId(),
+            ]);
+        }
+
         // DiscordServiceから管理可能なサーバー一覧を取得
         $guilds = [];
         $tokenError = false;
