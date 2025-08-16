@@ -25,8 +25,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
 
-        // グローバルミドルウェアとしてセッション管理を追加
+        // セッション管理のミドルウェアを最適化
         $middleware->append(\Illuminate\Session\Middleware\StartSession::class);
+        $middleware->append(\Illuminate\Cookie\Middleware\EncryptCookies::class);
+        $middleware->append(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

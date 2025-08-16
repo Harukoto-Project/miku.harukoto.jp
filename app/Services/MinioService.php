@@ -14,14 +14,10 @@ class MinioService
 
     public function __construct()
     {
-        \Log::info('MinioService constructor called');
-
         $this->disk = config('filesystems.default') ?: 'minio';
-        \Log::info('Disk set to: ' . $this->disk);
 
         // MinIO設定を直接取得
         $minioConfig = config('filesystems.disks.minio');
-        \Log::info('MinIO config: ' . json_encode($minioConfig));
 
         if (!$minioConfig) {
             throw new \Exception(
@@ -36,9 +32,6 @@ class MinioService
             $minioConfig['url'] ??
             throw new \Exception('MinIO public URL not configured');
 
-        \Log::info('Bucket set to: ' . $this->bucket);
-        \Log::info('Public URL set to: ' . $this->publicUrl);
-
         // 設定値の検証
         if (empty($this->bucket) || empty($this->publicUrl)) {
             \Log::warning(
@@ -48,8 +41,6 @@ class MinioService
             $this->bucket = 'local';
             $this->publicUrl = url('/storage');
         }
-
-        \Log::info('MinioService constructor completed successfully');
     }
 
     /**

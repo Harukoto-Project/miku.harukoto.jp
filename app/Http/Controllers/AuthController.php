@@ -202,9 +202,8 @@ class AuthController extends Controller
             // セッションから不要な情報を削除
             session()->forget(['url.intended', 'discord_state']);
 
-            // ログイン後のリダイレクト
-            return redirect()
-                ->route('dashboard')
+            // ログイン後のリダイレクト（明示的にダッシュボードに設定）
+            return redirect()->intended(route('dashboard'))
                 ->with('success', 'ログインしました！');
         } catch (\Exception $e) {
             Log::error('Discord OAuth Exception', [

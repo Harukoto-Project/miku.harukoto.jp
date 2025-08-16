@@ -27,14 +27,6 @@ class DashboardController extends Controller
         // セッションからDiscordアクセストークンを取得
         $discordToken = Session::get('discord_access_token');
 
-        // Discordアクセストークンが存在しない場合のログ出力
-        if (!$discordToken) {
-            Log::warning('Discord access token not found in session', [
-                'user_id' => $user->id ?? 'unknown',
-                'session_id' => $request->session()->getId(),
-            ]);
-        }
-
         // DiscordServiceから管理可能なサーバー一覧を取得
         $guilds = [];
         $tokenError = false;
@@ -64,13 +56,6 @@ class DashboardController extends Controller
                         ];
                     }
                 }
-
-                Log::info('Guilds retrieved successfully', [
-                    'user_id' => $user->id,
-                    'guild_count' => count($guilds),
-                    'total_guilds' => count($allGuilds),
-                ]);
-
             } catch (\Exception $e) {
                 Log::error('Error retrieving guilds', [
                     'user_id' => $user->id,

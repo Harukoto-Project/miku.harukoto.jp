@@ -209,7 +209,6 @@ function welcomerSettings() {
                     this.leaveSettings = data.onLeave || this.leaveSettings;
                 }
             } catch (error) {
-                console.error('設定の読み込みに失敗しました:', error);
                 this.showSaveStatus('設定の読み込みに失敗しました。環境変数の設定を確認してください。', 'error');
             } finally {
                 this.isLoading = false;
@@ -235,7 +234,6 @@ function welcomerSettings() {
                     this.showSaveStatus(`設定の更新に失敗しました: ${errorData.message || '不明なエラー'}`, 'error');
                 }
             } catch (error) {
-                console.error('設定の更新に失敗しました:', error);
                 this.showSaveStatus('設定の更新に失敗しました。ネットワーク接続を確認してください。', 'error');
             } finally {
                 this.busy = false;
@@ -261,7 +259,6 @@ function welcomerSettings() {
                     this.showSaveStatus(`設定の更新に失敗しました: ${errorData.message || '不明なエラー'}`, 'error');
                 }
             } catch (error) {
-                console.error('設定の更新に失敗しました:', error);
                 this.showSaveStatus('設定の更新に失敗しました。ネットワーク接続を確認してください。', 'error');
             } finally {
                 this.busy = false;

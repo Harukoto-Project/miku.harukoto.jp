@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // 認証後のリダイレクト先をダッシュボードに設定
+        $this->app['config']->set('auth.home', '/dashboard');
+        
+        // セッションの永続化を確実にする
+        $this->app['config']->set('session.secure', false);
+        $this->app['config']->set('session.same_site', 'lax');
     }
 }
