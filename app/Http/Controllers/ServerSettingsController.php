@@ -25,19 +25,26 @@ class ServerSettingsController extends Controller
         $discordToken = Session::get('discord_access_token');
 
         if (!$discordToken) {
-            return redirect()->route('dashboard')
-                ->with('error', 'Discordトークンが見つかりません。再度ログインしてください。');
+            return redirect()
+                ->route('dashboard')
+                ->with(
+                    'error',
+                    'Discordトークンが見つかりません。再度ログインしてください。',
+                );
         }
 
         // ユーザーが参加しているサーバー一覧を取得
         $allGuilds = $this->discordService->getUserGuilds($discordToken);
-        
+
         // 指定されたサーバーを検索
         $targetGuild = null;
         foreach ($allGuilds as $guild) {
             if ($guild['id'] === $guildId) {
                 // 管理者権限を持つサーバーのみ
-                if (isset($guild['permissions']) && ($guild['permissions'] & 0x20) === 0x20) {
+                if (
+                    isset($guild['permissions']) &&
+                    ($guild['permissions'] & 0x20) === 0x20
+                ) {
                     $targetGuild = $guild;
                 }
                 break;
@@ -45,8 +52,12 @@ class ServerSettingsController extends Controller
         }
 
         if (!$targetGuild) {
-            return redirect()->route('dashboard')
-                ->with('error', '指定されたサーバーが見つからないか、管理者権限がありません。');
+            return redirect()
+                ->route('dashboard')
+                ->with(
+                    'error',
+                    '指定されたサーバーが見つからないか、管理者権限がありません。',
+                );
         }
 
         // サーバー情報を整形

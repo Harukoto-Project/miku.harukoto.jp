@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServerSettingsController;
 use App\Http\Controllers\WelcomerSettingsController;
 use App\Http\Controllers\UserSettingsController;
+use App\Http\Controllers\AccountSettingsController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,6 +28,11 @@ Route::get('/login', function () {
     return redirect()->route('discord.login');
 })->name('login');
 
+// 公開用プロフィールページ
+Route::get('/profile/{userId}', [ProfileController::class, 'show'])->name(
+    'profile.public',
+);
+
 // Protected routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name(
@@ -36,15 +43,42 @@ Route::middleware('auth')->group(function () {
         'inviteBot',
     ])->name('dashboard.invite-bot');
 
+    // アカウント設定関連のルート
+    Route::get('/account/settings', [
+        AccountSettingsController::class,
+        'index',
+    ])->name('account.settings');
+    Route::post('/account/settings/update', [
+        AccountSettingsController::class,
+        'update',
+    ])->name('account.settings.update');
+
+    // プロフィール更新用のAPIルート
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name(
+        'profile.update',
+    );
+
     // サーバー設定関連のルート
-    Route::get('/server/{guildId}/settings', [ServerSettingsController::class, 'show'])->name('server.settings');
-    
+    Route::get('/server/{guildId}/settings', [
+        ServerSettingsController::class,
+        'show',
+    ])->name('server.settings');
+
     // Welcomer設定のAPIルート
     Route::prefix('api/guild/{guildId}/settings/welcomer')->group(function () {
         Route::get('/', [WelcomerSettingsController::class, 'getSettings']);
-        Route::put('/join', [WelcomerSettingsController::class, 'updateJoinSettings']);
-        Route::put('/leave', [WelcomerSettingsController::class, 'updateLeaveSettings']);
-        Route::get('/channels', [WelcomerSettingsController::class, 'getChannels']);
+        Route::put('/join', [
+            WelcomerSettingsController::class,
+            'updateJoinSettings',
+        ]);
+        Route::put('/leave', [
+            WelcomerSettingsController::class,
+            'updateLeaveSettings',
+        ]);
+        Route::get('/channels', [
+            WelcomerSettingsController::class,
+            'getChannels',
+        ]);
     });
 
     Route::get('/features', function () {

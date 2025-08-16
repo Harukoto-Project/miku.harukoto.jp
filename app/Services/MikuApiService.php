@@ -59,7 +59,10 @@ class MikuApiService
             $response = Http::withHeaders([
                 'Authorization' => $this->apiToken,
                 'Content-Type' => 'application/json',
-            ])->put("{$this->baseUrl}/guild/{$guildId}/settings/welcomer/join", $data);
+            ])->put(
+                "{$this->baseUrl}/guild/{$guildId}/settings/welcomer/join",
+                $data,
+            );
 
             if ($response->successful()) {
                 Log::info('Welcomer join settings updated successfully', [
@@ -94,7 +97,10 @@ class MikuApiService
             $response = Http::withHeaders([
                 'Authorization' => $this->apiToken,
                 'Content-Type' => 'application/json',
-            ])->put("{$this->baseUrl}/guild/{$guildId}/settings/welcomer/leave", $data);
+            ])->put(
+                "{$this->baseUrl}/guild/{$guildId}/settings/welcomer/leave",
+                $data,
+            );
 
             if ($response->successful()) {
                 Log::info('Welcomer leave settings updated successfully', [

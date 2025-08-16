@@ -38,7 +38,10 @@ class DashboardController extends Controller
             // サーバーごとに必要な情報を整形
             foreach ($allGuilds as $guild) {
                 // 管理者権限を持つサーバーのみ
-                if (isset($guild['permissions']) && ($guild['permissions'] & 0x20) === 0x20) {
+                if (
+                    isset($guild['permissions']) &&
+                    ($guild['permissions'] & 0x20) === 0x20
+                ) {
                     $guilds[] = [
                         'id' => $guild['id'],
                         'name' => $guild['name'],
@@ -66,8 +69,12 @@ class DashboardController extends Controller
         $discordToken = Session::get('discord_access_token');
 
         if (!$discordToken) {
-            return redirect()->route('dashboard')
-                ->with('error', 'Discordトークンが見つかりません。再度ログインしてください。');
+            return redirect()
+                ->route('dashboard')
+                ->with(
+                    'error',
+                    'Discordトークンが見つかりません。再度ログインしてください。',
+                );
         }
 
         $discordService = new DiscordService();

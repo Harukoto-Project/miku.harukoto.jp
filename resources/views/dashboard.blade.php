@@ -40,31 +40,84 @@
             ようこそ、{{ auth()->user()->discord_display_name ?? auth()->user()->name }}さん！
         </p>
 
-        <div class="mt-6 flex justify-center"
+        <div class="mt-6 w-full"
              x-show="loaded"
              x-transition:enter="transition ease-out duration-700 delay-400"
              x-transition:enter-start="opacity-0 transform translate-y-8 scale-95"
              x-transition:enter-end="opacity-100 transform translate-y-0 scale-100">
-            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <div class="p-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="flex-shrink-0">
-                            <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="h-16 w-16 rounded-full border border-gray-300 dark:border-gray-600">
+            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+                <div class="p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- アバターと基本情報 -->
+                        <div class="lg:col-span-1">
+                            <div class="text-center lg:text-left">
+                                <div class="flex justify-center lg:justify-start">
+                                    <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="h-24 w-24 rounded-full border-4 border-gray-300 dark:border-gray-600 shadow-lg">
+                                </div>
+                                <h3 class="mt-4 text-xl font-semibold text-gray-900 dark:text-gray-100">
+                                    {{ auth()->user()->discord_display_name ?? auth()->user()->name }}
+                                </h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ auth()->user()->discord_username }}
+                                </p>
+                                <div class="mt-4">
+                                    <a href="{{ route('account.settings') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors duration-200">
+                                        <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        アカウント設定
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">
-                                {{ auth()->user()->discord_display_name ?? auth()->user()->name }}
-                            </h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ auth()->user()->discord_username }}
-                            </p>
+
+                        <!-- 詳細情報 -->
+                        <div class="lg:col-span-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- アカウント情報 -->
+                                <div class="space-y-4">
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+                                        Harukoto Projectアカウント情報
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">ユーザーID</dt>
+                                            <dd class="text-sm text-gray-900 dark:text-gray-100 font-mono">{{ auth()->user()->id }}</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">作成日</dt>
+                                            <dd class="text-sm text-gray-900 dark:text-gray-100">{{ auth()->user()->created_at->format('Y年m月d日') }}</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">最終更新</dt>
+                                            <dd class="text-sm text-gray-900 dark:text-gray-100">{{ auth()->user()->updated_at->format('Y年m月d日') }}</dd>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Discord情報 -->
+                                <div class="space-y-4">
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
+                                        Discord情報
+                                    </h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Discord ID</dt>
+                                            <dd class="text-sm text-gray-900 dark:text-gray-100 font-mono">{{ auth()->user()->discord_id ?? '未連携' }}</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">表示名</dt>
+                                            <dd class="text-sm text-gray-900 dark:text-gray-100">{{ auth()->user()->discord_display_name ?? '未設定' }}</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">ユーザー名</dt>
+                                            <dd class="text-sm text-gray-900 dark:text-gray-100">{{ auth()->user()->discord_username ?? '未設定' }}</dd>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="mt-6">
-                        <a href="#" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200">
-                            アカウント設定
-                        </a>
                     </div>
                 </div>
             </div>
