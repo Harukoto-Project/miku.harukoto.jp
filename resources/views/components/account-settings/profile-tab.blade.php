@@ -673,12 +673,6 @@ function profileForm() {
         },
         
         init() {
-            // 初期化時のデバッグ情報
-            console.log('Form initialization:', {
-                card_gradient_stops: this.form.card_gradient_stops,
-                page_gradient_stops: this.form.page_gradient_stops,
-                bio_card_gradient_stops: this.form.bio_card_gradient_stops
-            });
             
             // グラデーション設定の初期化（文字列の場合はJSON.parseで変換）
             if (typeof this.form.card_gradient_stops === 'string') {
@@ -739,14 +733,7 @@ function profileForm() {
                 this.form.bio_card_gradient_direction = '0deg';
             }
             
-            console.log('Form after initialization:', {
-                card_gradient_stops: this.form.card_gradient_stops,
-                page_gradient_stops: this.form.page_gradient_stops,
-                bio_card_gradient_stops: this.form.bio_card_gradient_stops,
-                card_gradient_direction: this.form.card_gradient_direction,
-                page_gradient_direction: this.form.page_gradient_direction,
-                bio_card_gradient_direction: this.form.bio_card_gradient_direction
-            });
+
         },
         
         // テーマテンプレートを適用
@@ -817,8 +804,7 @@ function profileForm() {
                 bio_card_gradient_stops: JSON.stringify(this.form.bio_card_gradient_stops || [])
             };
             
-            // デバッグ用のログ出力
-            console.log('Sending form data:', formData);
+
             
             try {
                 const response = await fetch('/profile/update', {
@@ -830,18 +816,15 @@ function profileForm() {
                     body: JSON.stringify(formData)
                 });
                 
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
+
                 
                 if (response.redirected) {
-                    console.log('Response was redirected to:', response.url);
                     // リダイレクトが発生した場合はページをリロード
                     window.location.reload();
                     return;
                 }
                 
                 const data = await response.json();
-                console.log('Response data:', data);
                 
                 if (response.ok) {
                     this.success = true;
@@ -870,11 +853,7 @@ function profileForm() {
                         this.form.bio_card_gradient_enabled = data.profile.bio_card_gradient_enabled || false;
                         this.form.bio_card_gradient_direction = data.profile.bio_card_gradient_direction || '0deg';
                         
-                        console.log('Profile data updated (gradient settings preserved):', {
-                            card_gradient_stops: this.form.card_gradient_stops,
-                            page_gradient_stops: this.form.page_gradient_stops,
-                            bio_card_gradient_stops: this.form.bio_card_gradient_stops
-                        });
+
                     }
                     
                     setTimeout(() => this.success = false, 5000);
@@ -1005,8 +984,6 @@ function profileForm() {
             
             // 配列に新しいストップを追加
             this.form[`${type}_gradient_stops`].push(newStop);
-            console.log('Added gradient stop:', newStop);
-            console.log('Current gradient stops:', this.form[`${type}_gradient_stops`]);
         },
 
         removeGradientStop(type, id) {
@@ -1018,9 +995,7 @@ function profileForm() {
             
             const index = this.getGradientStops(type).findIndex(stop => stop.id === id);
             if (index > -1) {
-                const removed = this.form[`${type}_gradient_stops`].splice(index, 1);
-                console.log('Removed gradient stop:', removed[0]);
-                console.log('Current gradient stops:', this.form[`${type}_gradient_stops`]);
+                this.form[`${type}_gradient_stops`].splice(index, 1);
             }
         },
 

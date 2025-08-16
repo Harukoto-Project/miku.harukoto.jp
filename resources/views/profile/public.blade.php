@@ -24,18 +24,6 @@
     </script>
 
     @php
-        // デバッグ情報（開発時のみ）
-        if (config('app.debug')) {
-            $debug = [
-                'card_gradient_enabled' => $profile->card_gradient_enabled,
-                'card_gradient_stops' => $profile->card_gradient_stops,
-                'card_gradient_direction' => $profile->card_gradient_direction,
-                'card_background_color' => $profile->card_background_color,
-                'theme_color' => $profile->theme_color
-            ];
-            echo "<!-- Debug: " . json_encode($debug) . " -->";
-        }
-        
         // カードグラデーションの処理
         $cardGradient = '';
         
@@ -204,9 +192,7 @@
                 <!-- 自己紹介 -->
                 @if($profile->bio)
                     <div class="mt-4 rounded-lg p-4 backdrop-blur-sm transition-all duration-300 hover:backdrop-blur-md bio-card-color" style="border: 1px solid rgba(255, 255, 255, 0.125);">
-                        <p class="whitespace-pre-wrap text-sm leading-relaxed transition-colors duration-300 bio-text-color">
-                            {!! nl2br(e($profile->bio)) !!}
-                        </p>
+                        <p class="whitespace-pre-wrap text-sm leading-relaxed transition-colors duration-300 bio-text-color">{!! $profile->bio !!}</p>
                     </div>
                 @endif
             </div>
