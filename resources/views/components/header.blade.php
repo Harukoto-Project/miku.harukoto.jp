@@ -67,8 +67,6 @@
         <el-popover-group class="hidden lg:flex lg:gap-x-12">
             <a href="/dashboard"
                 class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">ダッシュボード</a>
-            <a href="/features"
-                class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">機能一覧</a>
             <a href="/commands"
                 class="text-sm/6 font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300">コマンド一覧</a>
             <a href="/terms"

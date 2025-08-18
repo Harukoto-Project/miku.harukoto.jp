@@ -13,11 +13,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// OGタグテストページ
-Route::get('/og-test', function () {
-    return view('og-test');
-})->name('og.test');
-
 // Discord OAuth routes
 Route::get('/auth/discord', [AuthController::class, 'redirectToDiscord'])->name(
     'discord.login',
@@ -118,11 +113,6 @@ Route::middleware('auth')->group(function () {
         ]);
     });
 
-    Route::get('/commands', [
-        App\Http\Controllers\CommandsController::class,
-        'index',
-    ])->name('commands');
-
     // コマンド一覧APIルート
     Route::prefix('api/commands')->group(function () {
         Route::get('/', [
@@ -134,12 +124,18 @@ Route::middleware('auth')->group(function () {
             'clearCache',
         ]);
     });
-
-    Route::get('/terms', function () {
-        return view('terms');
-    })->name('terms');
-
-    Route::get('/privacy-policy', function () {
-        return view('privacy-policy');
-    })->name('privacy-policy');
 });
+
+Route::get('/commands', [
+    App\Http\Controllers\CommandsController::class,
+    'index',
+])->name('commands');
+
+// 公開ページ（認証不要）
+Route::get('/terms', function () {
+    return view('terms');
+})->name('terms');
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');

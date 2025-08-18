@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Miku - Discordボットサービス</title>
+    <title>Miku - Making Everything Easy</title>
 
     @include('components.og-tags', [
         'title' => 'Miku - 多機能で便利なコミュニティ向けDiscord Bot',
-        'description' => '多機能で便利なコミュニティ向けDiscord Bot。ログインして機能をお楽しみください。',
+        'description' => 'Discordサーバーの管理とコミュニティ活動をサポートする多機能Bot',
         'image' => asset('images/default-avatar.svg')
     ])
 
@@ -61,7 +61,7 @@
     </div>
 @endif
 
-@include('components.header', ['avatarUrl' => 'https://cdn.discordapp.com/avatars/949873067620966490/b178d5be3d02d1263c80002ad20363f1.png'])
+@include('components.header')
 
 
 <main class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
@@ -227,10 +227,10 @@
 <section class="py-16 bg-white dark:bg-gray-900">
     <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl mb-6">
-            今すぐMikuを始めましょう
+            今すぐMikuを導入しよう
         </h2>
         <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-            数分でセットアップ完了。あなたのDiscordサーバーをより楽しく、管理しやすくします。
+            インストールするだけでセットアップ完了。<br>あなたのDiscordサーバーをより楽しく、管理しやすくします。
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             @auth
