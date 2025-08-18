@@ -59,6 +59,11 @@
                     class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
                 プロフィール
             </button>
+            <button @click="activeTab = 'module'" 
+                    :class="activeTab === 'module' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
+                    class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200">
+                モジュール設定
+            </button>
         </nav>
     </div>
 
@@ -87,6 +92,13 @@
         <div x-show="activeTab === 'profile'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="px-6 py-8">
                 @include('components.account-settings.profile-tab')
+            </div>
+        </div>
+
+        <!-- モジュール設定タブ -->
+        <div x-show="activeTab === 'module'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+            <div class="px-6 py-8">
+                @include('components.account-settings.module-tab')
             </div>
         </div>
     </div>
