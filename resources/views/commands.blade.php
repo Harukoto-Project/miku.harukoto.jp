@@ -13,6 +13,7 @@
         'image' => asset('images/default-avatar.svg')
     ])
 
+    @include('components.ga4')
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -66,29 +67,17 @@
     </div>
 
     
-    <div x-show="!loading && !error" class="space-y-8">
-        
-        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                <div>
-                    <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400" x-text="commands.length"></div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">総コマンド数</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-green-600 dark:text-green-400" x-text="categories.length"></div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">カテゴリ数</div>
-                </div>
-                <div>
-                    <div class="text-3xl font-bold text-purple-600 dark:text-purple-400" x-text="totalOptions"></div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">総オプション数</div>
-                </div>
-            </div>
-        </div>
-
-        
+    <div x-show="!loading && !error" class="space-y-8">    
         <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
             <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="flex flex-wrap -mb-px overflow-x-auto">
+                    <button @click="activeCategory = 'all'" 
+                            :class="activeCategory === 'all' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'" 
+                            class="py-3 px-6 border-b-2 font-medium text-sm whitespace-nowrap transition-colors duration-200">
+                        <span>すべて</span>
+                        <span class="ml-2 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full" 
+                            x-text="commands.length"></span>
+                    </button>
                     <template x-for="category in categories" :key="category.key">
                         <button @click="activeCategory = category.key" 
                                 :class="activeCategory === category.key ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'" 
@@ -427,6 +416,9 @@ function commandsPage() {
             // 配列を確実に初期化
             this.expandedCommands = [];
             
+            // 「すべて」タブをデフォルトで選択
+            this.activeCategory = 'all';
+            
             this.loadCommands();
         },
 
@@ -477,6 +469,11 @@ function commandsPage() {
         },
 
         getCommandsByCategory(categoryKey) {
+            // 「すべて」タブが選択された場合は全コマンドを返す
+            if (categoryKey === 'all') {
+                return this.commands;
+            }
+            
             // カテゴリマッピング（コマンド名と説明文に基づく分類）
             const categoryMapping = {
                 'auth': ['login', 'logout', 'register', 'verify', 'auth', 'authentication', 'token', 'session'],
