@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $guild['name'] }} - サーバー設定 - Laravel</title>
+    <title>{{ $guild['name'] }} - サーバー設定 - Miku</title>
+
+    @include('components.og-tags', [
+        'title' => '{{ $guild["name"] }} - サーバー設定 - Miku',
+        'description' => '{{ $guild["name"] }}のサーバー設定ページです。',
+        'image' => $guild['icon_url'] ?? asset('images/default-avatar.svg')
+    ])
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

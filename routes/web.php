@@ -13,6 +13,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// OGタグテストページ
+Route::get('/og-test', function () {
+    return view('og-test');
+})->name('og.test');
+
 // Discord OAuth routes
 Route::get('/auth/discord', [AuthController::class, 'redirectToDiscord'])->name(
     'discord.login',
@@ -28,8 +33,8 @@ Route::get('/login', function () {
     return redirect()->route('discord.login');
 })->name('login');
 
-// 公開用プロフィールページ
-Route::get('/profile/{userId}', [ProfileController::class, 'show'])->name(
+// 公開用プロフィールページ（DiscordIDでアクセス）
+Route::get('/profile/{discordId}', [ProfileController::class, 'show'])->name(
     'profile.public',
 );
 

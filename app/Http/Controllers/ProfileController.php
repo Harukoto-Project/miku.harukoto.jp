@@ -163,25 +163,24 @@ class ProfileController extends Controller
     }
 
     /**
-     * Get the user's profile.
+     * Get the user's profile by Discord ID.
      */
-    public function show($userId)
+    public function show($discordId)
     {
         // デバッグ情報をログに出力
-        \Log::info('Profile access attempt', [
-            'userId' => $userId,
-            'type' => gettype($userId),
+        \Log::info('Profile access attempt by Discord ID', [
+            'discordId' => $discordId,
+            'type' => gettype($discordId),
         ]);
 
-        // まずユーザーIDでユーザーを検索
-        $user = User::where('id', $userId)
-            ->orWhere('discord_id', $userId)
-            ->first();
+        // DiscordIDでユーザーを検索
+        $user = User::where('discord_id', $discordId)->first();
 
         \Log::info('User search result', [
             'userFound' => $user ? true : false,
             'userId' => $user ? $user->id : null,
             'discordId' => $user ? $user->discord_id : null,
+            'searchedDiscordId' => $discordId,
         ]);
 
         if (!$user) {

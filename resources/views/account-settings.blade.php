@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>アカウント設定 - Laravel</title>
+    <title>アカウント設定 - Miku</title>
+
+    @include('components.og-tags', [
+        'title' => 'アカウント設定 - Miku',
+        'description' => '{{ $user->discord_display_name ?? $user->name }}さんのアカウント設定ページです。',
+        'image' => $user->avatar_url ?? asset('images/default-avatar.svg')
+    ])
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

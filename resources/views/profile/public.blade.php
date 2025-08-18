@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $profile->display_name ?? $profile->user->discord_display_name ?? $profile->user->name }} - プロフィール</title>
 
+    @include('components.og-tags', [
+        'title' => '{{ $profile->display_name ?? $profile->user->discord_display_name ?? $profile->user->name }} - プロフィール',
+        'description' => '{{ $profile->bio ?? "Discordユーザーのプロフィールページです。" }}',
+        'image' => $profile->avatar_path ? Storage::disk('minio')->url($profile->avatar_path) : ($profile->custom_avatar ?? $profile->user->avatar_url ?? '/images/default-avatar.svg')
+        'type' => 'profile',
+        'siteName' => 'Miku'
+    ])
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
