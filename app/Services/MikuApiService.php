@@ -12,7 +12,7 @@ class MikuApiService
 
     public function __construct()
     {
-        $this->baseUrl = config('services.miku.api_url');
+        $this->baseUrl = config('services.miku.base_url');
         $this->apiToken = config('services.miku.api_token');
     }
 
@@ -123,6 +123,49 @@ class MikuApiService
                 'message' => $e->getMessage(),
             ]);
             return false;
+        }
+    }
+
+    /**
+     * 汎用的なAPIリクエストを実行
+     */
+    public function makeRequest(string $method, string $endpoint, array $data = []): array
+    {
+        try {
+            $url = "{$this->baseUrl}{$endpoint}";
+            
+            $request = Http::withHeaders([
+                'Authorization' => $this->apiToken,
+                'Content-Type' => 'application/json',
+            ]);
+
+            $response = match (strtoupper($method)) {
+                'GET' => $request->get($url),
+                'POST' => $request->post($url, $data),
+                'PUT' => $request->put($url, $data),
+                'DELETE' => $request->delete($url),
+                default => throw new \InvalidArgumentException("Unsupported HTTP method: {$method}")
+            };
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::error('API request failed', [
+                'method' => $method,
+                'endpoint' => $endpoint,
+                'status' => $response->status(),
+                'response' => $response->body(),
+            ]);
+
+            throw new \Exception("API request failed with status: {$response->status()}");
+        } catch (\Exception $e) {
+            Log::error('Error making API request', [
+                'method' => $method,
+                'endpoint' => $endpoint,
+                'message' => $e->getMessage(),
+            ]);
+            throw $e;
         }
     }
 }

@@ -42,7 +42,7 @@ return [
     ],
 
     'miku' => [
-        'api_url' => env('MIKU_API_URL'),
+        'base_url' => env('MIKU_API_URL'),
         'api_token' => env('MIKU_API_TOKEN'),
     ],
 ];
