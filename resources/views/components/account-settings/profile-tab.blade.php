@@ -13,7 +13,7 @@
                 <div class="flex-shrink-0">
                     <div class="relative group">
                         <img 
-                            :src="avatarUrl || '{{ $user->profile->avatar_path ? Storage::disk("minio")->url($user->profile->avatar_path) : ($user->avatar_url ?? "/images/default-avatar.svg") }}'" 
+                            :src="avatarUrl || '{{ $user->profile && $user->profile->avatar_path ? Storage::disk("minio")->url($user->profile->avatar_path) : ($user->avatar_url ?? "/images/default-avatar.svg") }}'" 
                             alt="アバター" 
                             class="h-24 w-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
                             x-on:error="avatarUrl = '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}'"
