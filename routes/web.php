@@ -118,10 +118,6 @@ Route::middleware('auth')->group(function () {
         ]);
     });
 
-    Route::get('/features', function () {
-        return view('features');
-    })->name('features');
-
     Route::get('/commands', [
         App\Http\Controllers\CommandsController::class,
         'index',

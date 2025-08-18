@@ -67,10 +67,10 @@
 <main class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
     <div class="text-center">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl">
-            Mikuへようこそ
+            Miku
         </h1>
         <p class="mt-6 text-xl leading-8 text-gray-600 dark:text-gray-400">
-            <span class="font-semibold text-indigo-600 dark:text-indigo-400">「Making Everything Easy」</span>をモットーに
+            <span class="font-semibold text-indigo-600 dark:text-indigo-400">「Making Everything Easy」</span>
         </p>
         <p class="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-400">
             Discordサーバーの管理とコミュニティ活動をサポートする多機能Bot
@@ -96,9 +96,6 @@
             <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
                 主要機能
             </h2>
-            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
-                Mikuが提供する豊富な機能で、あなたのDiscordサーバーをより楽しく、管理しやすくします
-            </p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -109,7 +106,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">音楽・音声機能</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">高速な読み上げ機能</h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-4">VOICEVOX統合による日本語音声合成と読み上げ機能</p>
                 <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
                     <li>• 複数話者対応</li>
@@ -125,7 +122,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">ゲーミフィケーション</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">サーバーの活発化</h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-4">レベルシステムと実績システムでサーバーを活性化</p>
                 <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
                     <li>• 経験値・レベルアップ</li>
@@ -161,7 +158,7 @@
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">AI・自動化機能</h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-4">ChatAI統合と自動化ツールで効率化</p>
                 <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-                    <li>• 多モデル対応</li>
+                    <li>• 多モデル対応(β版)</li>
                     <li>• リマインダー</li>
                     <li>• 自動公開</li>
                 </ul>
@@ -177,8 +174,8 @@
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">ユーティリティ機能</h3>
                 <p class="text-gray-600 dark:text-gray-400 mb-4">コミュニティツールとゲーム・エンターテイメント</p>
                 <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-                    <li>• 引用作成</li>
-                    <li>• 投票システム</li>
+                    <li>• メッセージの展開</li>
+                    <li>• fxtwitterの置き換え</li>
                     <li>• サイコロ・おみくじ</li>
                 </ul>
             </div>
@@ -207,11 +204,11 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
-                <div class="text-4xl font-bold text-white mb-2">1000+</div>
+                <div class="text-4xl font-bold text-white mb-2">100+</div>
                 <div class="text-indigo-100">アクティブサーバー</div>
             </div>
             <div>
-                <div class="text-4xl font-bold text-white mb-2">50,000+</div>
+                <div class="text-4xl font-bold text-white mb-2">30,000+</div>
                 <div class="text-indigo-100">ユーザー</div>
             </div>
             <div>
@@ -281,7 +278,7 @@
             </div>
         </div>
         <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; 2024 Miku Bot. All rights reserved.</p>
+            <p>&copy; 2023-2025 Harukoto Project All rights reserved.</p>
         </div>
     </div>
 </footer>
