@@ -8,8 +8,8 @@
     <title>{{ $guild['name'] }} - サーバー設定 - Miku</title>
 
     @include('components.og-tags', [
-        'title' => '{{ $guild["name"] }} - サーバー設定 - Miku',
-        'description' => '{{ $guild["name"] }}のサーバー設定ページです。',
+        'title' => $guild['name'] . ' - サーバー設定 - Miku',
+        'description' => $guild['name'] . 'のサーバー設定ページです。Welcomer、一般設定、モデレーションの設定が可能です。',
         'image' => $guild['icon_url'] ?? asset('images/default-avatar.svg')
     ])
 

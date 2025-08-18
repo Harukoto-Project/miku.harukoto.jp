@@ -9,7 +9,7 @@
 
     @include('components.og-tags', [
         'title' => 'ダッシュボード - Miku',
-        'description' => 'ようこそ、{{ auth()->user()->discord_display_name ?? auth()->user()->name }}さん！',
+        'description' => 'ようこそ、' . (auth()->user()->discord_display_name ?? auth()->user()->name) . 'さん！Discordボットサービスのダッシュボードです。',
         'image' => auth()->user()->avatar_url ?? asset('images/default-avatar.svg')
     ])
 

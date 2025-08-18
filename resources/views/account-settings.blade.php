@@ -9,7 +9,7 @@
 
     @include('components.og-tags', [
         'title' => 'アカウント設定 - Miku',
-        'description' => '{{ $user->discord_display_name ?? $user->name }}さんのアカウント設定ページです。',
+        'description' => ($user->discord_display_name ?? $user->name) . 'さんのアカウント設定ページです。',
         'image' => $user->avatar_url ?? asset('images/default-avatar.svg')
     ])
 

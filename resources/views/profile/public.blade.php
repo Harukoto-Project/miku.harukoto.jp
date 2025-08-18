@@ -6,9 +6,9 @@
     <title>{{ $profile->display_name ?? $profile->user->discord_display_name ?? $profile->user->name }} - プロフィール</title>
 
     @include('components.og-tags', [
-        'title' => '{{ $profile->display_name ?? $profile->user->discord_display_name ?? $profile->user->name }} - プロフィール',
-        'description' => '{{ $profile->bio ?? "Discordユーザーのプロフィールページです。" }}',
-        'image' => $profile->avatar_path ? Storage::disk('minio')->url($profile->avatar_path) : ($profile->custom_avatar ?? $profile->user->avatar_url ?? '/images/default-avatar.svg')
+        'title' => $profile->display_name ?? $profile->user->discord_display_name ?? $profile->user->name . ' - プロフィール',
+        'description' => $profile->bio ?? 'Discordユーザーのプロフィールページです。',
+        'image' => $profile->avatar_path ? Storage::disk('minio')->url($profile->avatar_path) : ($profile->custom_avatar ?? $profile->user->avatar_url ?? asset('images/default-avatar.svg')),
         'type' => 'profile',
         'siteName' => 'Miku'
     ])
