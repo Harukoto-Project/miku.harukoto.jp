@@ -61,20 +61,20 @@
                         Welcomer
                     </button>
                     <button
-                        @click="activeTab = 'general'"
-                        :class="activeTab === 'general' 
+                        @click="activeTab = 'rta'"
+                        :class="activeTab === 'rta' 
                             ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' 
                             : 'text-gray-700 dark:text-gray-300 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300'"
                         class="py-3 px-1 font-medium text-sm transition-colors duration-200 focus:outline-none">
-                        一般設定
+                        即抜けRTAの設定
                     </button>
                     <button
-                        @click="activeTab = 'moderation'"
-                        :class="activeTab === 'moderation' 
+                        @click="activeTab = 'leveling'"
+                        :class="activeTab === 'leveling' 
                             ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' 
                             : 'text-gray-700 dark:text-gray-300 border-b-2 border-transparent hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300'"
                         class="py-3 px-1 font-medium text-sm transition-colors duration-200 focus:outline-none">
-                        モデレーション
+                        レベリング報酬の設定
                     </button>
                 </nav>
             </div>
@@ -87,13 +87,13 @@
         </div>
 
         
-        <div x-show="activeTab === 'general'" x-transition.opacity.scale>
-            @include('components.server-settings.general-tab')
+        <div x-show="activeTab === 'rta'" x-transition.opacity.scale>
+            @include('components.server-settings.rta-tab')
         </div>
 
         
-        <div x-show="activeTab === 'moderation'" x-transition.opacity.scale>
-            @include('components.server-settings.moderation-tab')
+        <div x-show="activeTab === 'leveling'" x-transition.opacity.scale>
+            @include('components.server-settings.leveling-tab')
         </div>
     </div>
 </main>
