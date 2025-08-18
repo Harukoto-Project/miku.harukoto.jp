@@ -127,6 +127,62 @@ class MikuApiService
     }
 
     /**
+     * コマンド一覧を取得
+     */
+    public function getCommands(): ?array
+    {
+        try {
+            Log::info('Fetching commands from API', [
+                'base_url' => $this->baseUrl,
+                'endpoint' => "{$this->baseUrl}/commands",
+            ]);
+
+            $response = Http::withHeaders([
+                'Authorization' => $this->apiToken,
+                'Content-Type' => 'application/json',
+            ])->get("{$this->baseUrl}/commands");
+
+            Log::info('API response received', [
+                'status' => $response->status(),
+                'headers' => $response->headers(),
+                'body_length' => strlen($response->body()),
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                Log::info('Commands fetched successfully', [
+                    'count' => $data['count'] ?? 0,
+                    'categories' => count($data['categories'] ?? []),
+                    'commands_count' => count($data['commands'] ?? []),
+                    'data_structure' => array_keys($data),
+                ]);
+
+                return $data;
+            }
+
+            if ($response->status() === 404) {
+                Log::warning('No commands found', [
+                    'status' => $response->status(),
+                ]);
+                return null;
+            }
+
+            Log::error('Failed to fetch commands', [
+                'status' => $response->status(),
+                'response' => $response->body(),
+            ]);
+
+            return null;
+        } catch (\Exception $e) {
+            Log::error('Error fetching commands', [
+                'message' => $e->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    /**
      * 汎用的なAPIリクエストを実行
      */
     public function makeRequest(

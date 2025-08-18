@@ -122,9 +122,22 @@ Route::middleware('auth')->group(function () {
         return view('features');
     })->name('features');
 
-    Route::get('/commands', function () {
-        return view('commands');
-    })->name('commands');
+    Route::get('/commands', [
+        App\Http\Controllers\CommandsController::class,
+        'index',
+    ])->name('commands');
+
+    // コマンド一覧APIルート
+    Route::prefix('api/commands')->group(function () {
+        Route::get('/', [
+            App\Http\Controllers\CommandsController::class,
+            'getCommands',
+        ]);
+        Route::post('/clear-cache', [
+            App\Http\Controllers\CommandsController::class,
+            'clearCache',
+        ]);
+    });
 
     Route::get('/terms', function () {
         return view('terms');
