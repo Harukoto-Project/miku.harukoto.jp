@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Exception;
 
 class ProfileController extends Controller
 {
@@ -104,6 +105,40 @@ class ProfileController extends Controller
             'is_public',
         ]);
 
+        // デフォルト値を設定（空の場合は適切なデフォルト値を設定）
+        $defaults = [
+            'display_name' => '',
+            'bio' => '',
+            'pronouns' => '',
+            'location' => '',
+            'theme_color' => '#3B82F6',
+            'card_background_color' => '#3B82F6',
+            'page_background_color' => '#F9FAFB',
+            'profile_name_color' => '#FFFFFF',
+            'pronouns_color' => '#E2E8F0',
+            'location_color' => '#F1F5F9',
+            'discord_color' => '#F1F5F9',
+            'bio_card_color' => '#FFFFFF',
+            'bio_text_color' => '#FFFFFF',
+            'card_gradient_enabled' => false,
+            'card_gradient_stops' => '[]',
+            'card_gradient_direction' => '0deg',
+            'page_gradient_enabled' => false,
+            'page_gradient_stops' => '[]',
+            'page_gradient_direction' => '0deg',
+            'bio_card_gradient_enabled' => false,
+            'bio_card_gradient_stops' => '[]',
+            'bio_card_gradient_direction' => '0deg',
+            'is_public' => false,
+        ];
+
+        // 空の値にデフォルト値を設定
+        foreach ($defaults as $key => $defaultValue) {
+            if (!isset($profileData[$key]) || $profileData[$key] === '' || $profileData[$key] === null) {
+                $profileData[$key] = $defaultValue;
+            }
+        }
+
         // アバターパスが設定されている場合は追加
         if (isset($profileData['avatar_path'])) {
             $profileData['avatar_path'] = $profileData['avatar_path'];
@@ -125,20 +160,24 @@ class ProfileController extends Controller
                 try {
                     $decoded = json_decode($profileData[$field], true);
                     if (json_last_error() === JSON_ERROR_NONE) {
-                        $profileData[$field] = $profileData[$field]; // 有効なJSONとして保存
+                        // 有効なJSONの場合はそのまま保存
+                        $profileData[$field] = $profileData[$field];
                     } else {
                         \Log::warning(
                             "Invalid JSON for {$field}: " .
                                 json_last_error_msg(),
                         );
-                        $profileData[$field] = null;
+                        $profileData[$field] = '[]'; // 無効な場合は空配列を保存
                     }
                 } catch (Exception $e) {
                     \Log::warning(
                         "Error processing {$field}: " . $e->getMessage(),
                     );
-                    $profileData[$field] = null;
+                    $profileData[$field] = '[]'; // エラーの場合は空配列を保存
                 }
+            } else {
+                // フィールドが存在しない場合は空配列を設定
+                $profileData[$field] = '[]';
             }
         }
 
@@ -190,6 +229,36 @@ class ProfileController extends Controller
         // ユーザーのプロフィールを取得
         $profile = $user->profile()->where('is_public', true)->first();
 
+        // プロフィールが存在しない場合は、デフォルト値でプロフィールオブジェクトを作成
+        if (!$profile) {
+            $profile = new UserProfile();
+            $profile->user_id = $user->id;
+            $profile->display_name = '';
+            $profile->bio = '';
+            $profile->pronouns = '';
+            $profile->location = '';
+            $profile->theme_color = '#3B82F6';
+            $profile->card_background_color = '#3B82F6';
+            $profile->page_background_color = '#F9FAFB';
+            $profile->profile_name_color = '#FFFFFF';
+            $profile->pronouns_color = '#E2E8F0';
+            $profile->location_color = '#F1F5F9';
+            $profile->discord_color = '#F1F5F9';
+            $profile->bio_card_color = '#FFFFFF';
+            $profile->bio_text_color = '#FFFFFF';
+            $profile->card_gradient_enabled = false;
+            $profile->card_gradient_stops = '[]';
+            $profile->card_gradient_direction = '0deg';
+            $profile->page_gradient_enabled = false;
+            $profile->page_gradient_stops = '[]';
+            $profile->page_gradient_direction = '0deg';
+            $profile->bio_card_gradient_enabled = false;
+            $profile->bio_card_gradient_stops = '[]';
+            $profile->bio_card_gradient_direction = '0deg';
+            $profile->is_public = true;
+            $profile->avatar_path = null;
+        }
+
         \Log::info('Profile search result', [
             'profileFound' => $profile ? true : false,
             'isPublic' => $profile ? $profile->is_public : null,
@@ -238,9 +307,7 @@ class ProfileController extends Controller
             ],
         ]);
 
-        if (!$profile) {
-            abort(404, 'このプロフィールは公開されていません');
-        }
+
 
         return view('profile.public', compact('profile'));
     }
