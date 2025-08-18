@@ -29,9 +29,11 @@ Authorization: API TOKEN
 **説明:** 指定されたユーザーのアチーブメント設定を更新します。
 
 **パラメータ:**
-- `userId` (path): ユーザーID
+
+-   `userId` (path): ユーザーID
 
 **リクエストボディ:**
+
 ```json
 {
   "achievementsEnabled": boolean,
@@ -40,30 +42,35 @@ Authorization: API TOKEN
 ```
 
 **レスポンス:**
-- **成功時 (200):**
+
+-   **成功時 (200):**
+
 ```json
 {
-  "userId": "string",
-  "achievementsEnabled": true,
-  "notificationsEnabled": true
+    "userId": "string",
+    "achievementsEnabled": true,
+    "notificationsEnabled": true
 }
 ```
 
-- **エラー時 (400):**
+-   **エラー時 (400):**
+
 ```json
 {
-  "error": "Invalid parameters"
+    "error": "Invalid parameters"
 }
 ```
 
-- **エラー時 (500):**
+-   **エラー時 (500):**
+
 ```json
 {
-  "error": "Internal server error"
+    "error": "Internal server error"
 }
 ```
 
 **使用例:**
+
 ```bash
 curl -X PUT http://localhost:3000/user/123456789/settings/achievements \
   -H "Authorization: Bearer YOUR_API_KEY" \
@@ -78,26 +85,31 @@ curl -X PUT http://localhost:3000/user/123456789/settings/achievements \
 **説明:** 指定されたユーザーの現在のアチーブメント設定を取得します。設定が存在しない場合は、デフォルト設定を作成して返します。
 
 **パラメータ:**
-- `userId` (path): ユーザーID
+
+-   `userId` (path): ユーザーID
 
 **レスポンス:**
-- **成功時 (200):**
+
+-   **成功時 (200):**
+
 ```json
 {
-  "userId": "string",
-  "achievementsEnabled": true,
-  "notificationsEnabled": true
+    "userId": "string",
+    "achievementsEnabled": true,
+    "notificationsEnabled": true
 }
 ```
 
-- **エラー時 (500):**
+-   **エラー時 (500):**
+
 ```json
 {
-  "error": "Internal server error"
+    "error": "Internal server error"
 }
 ```
 
 **使用例:**
+
 ```bash
 curl -X GET http://localhost:3000/user/123456789/settings/achievements \
   -H "Authorization: Bearer YOUR_API_KEY"
@@ -110,41 +122,46 @@ curl -X GET http://localhost:3000/user/123456789/settings/achievements \
 **説明:** 指定されたユーザーが獲得済みのアチーブメント一覧を取得します。
 
 **パラメータ:**
-- `userId` (path): ユーザーID
+
+-   `userId` (path): ユーザーID
 
 **レスポンス:**
-- **成功時 (200):**
+
+-   **成功時 (200):**
+
 ```json
 [
-  {
-    "achievement": {
-      "id": "string",
-      "category": "string",
-      "name": "string",
-      "description": "string",
-      "isHidden": false
-    },
-    "tier": {
-      "tier": 1,
-      "name": "string",
-      "description": "string",
-      "requirement": "string",
-      "reward": "string"
-    },
-    "unlockedAt": "2024-01-01T00:00:00.000Z",
-    "currentProgress": 100
-  }
+    {
+        "achievement": {
+            "id": "string",
+            "category": "string",
+            "name": "string",
+            "description": "string",
+            "isHidden": false
+        },
+        "tier": {
+            "tier": 1,
+            "name": "string",
+            "description": "string",
+            "requirement": "string",
+            "reward": "string"
+        },
+        "unlockedAt": "2024-01-01T00:00:00.000Z",
+        "currentProgress": 100
+    }
 ]
 ```
 
-- **エラー時 (500):**
+-   **エラー時 (500):**
+
 ```json
 {
-  "error": "Internal server error"
+    "error": "Internal server error"
 }
 ```
 
 **使用例:**
+
 ```bash
 curl -X GET http://localhost:3000/user/123456789/achievements/unlocked \
   -H "Authorization: Bearer YOUR_API_KEY"
@@ -157,40 +174,45 @@ curl -X GET http://localhost:3000/user/123456789/achievements/unlocked \
 **説明:** 指定されたユーザーがまだ獲得していないアチーブメント一覧を取得します。
 
 **パラメータ:**
-- `userId` (path): ユーザーID
+
+-   `userId` (path): ユーザーID
 
 **レスポンス:**
-- **成功時 (200):**
+
+-   **成功時 (200):**
+
 ```json
 [
-  {
-    "achievement": {
-      "id": "string",
-      "category": "string",
-      "name": "string",
-      "description": "string",
-      "isHidden": false
-    },
-    "nextTier": {
-      "tier": 1,
-      "name": "string",
-      "description": "string",
-      "requirement": "string",
-      "reward": "string"
-    },
-    "progress": 0
-  }
+    {
+        "achievement": {
+            "id": "string",
+            "category": "string",
+            "name": "string",
+            "description": "string",
+            "isHidden": false
+        },
+        "nextTier": {
+            "tier": 1,
+            "name": "string",
+            "description": "string",
+            "requirement": "string",
+            "reward": "string"
+        },
+        "progress": 0
+    }
 ]
 ```
 
-- **エラー時 (500):**
+-   **エラー時 (500):**
+
 ```json
 {
-  "error": "Internal server error"
+    "error": "Internal server error"
 }
 ```
 
 **使用例:**
+
 ```bash
 curl -X GET http://localhost:3000/user/123456789/achievements/locked \
   -H "Authorization: Bearer YOUR_API_KEY"
@@ -203,61 +225,66 @@ curl -X GET http://localhost:3000/user/123456789/achievements/locked \
 **説明:** 指定されたユーザーの全アチーブメント一覧を取得します。獲得済みと未獲得の両方の情報を含みます。
 
 **パラメータ:**
-- `userId` (path): ユーザーID
+
+-   `userId` (path): ユーザーID
 
 **レスポンス:**
-- **成功時 (200):**
+
+-   **成功時 (200):**
+
 ```json
 [
-  {
-    "achievement": {
-      "id": "string",
-      "category": "string",
-      "name": "string",
-      "description": "string",
-      "isHidden": false
+    {
+        "achievement": {
+            "id": "string",
+            "category": "string",
+            "name": "string",
+            "description": "string",
+            "isHidden": false
+        },
+        "status": "unlocked",
+        "currentTier": 1,
+        "tier": {
+            "tier": 1,
+            "name": "string",
+            "description": "string",
+            "requirement": "string",
+            "reward": "string"
+        },
+        "unlockedAt": "2024-01-01T00:00:00.000Z",
+        "currentProgress": 100
     },
-    "status": "unlocked",
-    "currentTier": 1,
-    "tier": {
-      "tier": 1,
-      "name": "string",
-      "description": "string",
-      "requirement": "string",
-      "reward": "string"
-    },
-    "unlockedAt": "2024-01-01T00:00:00.000Z",
-    "currentProgress": 100
-  },
-  {
-    "achievement": {
-      "id": "string",
-      "category": "string",
-      "name": "string",
-      "description": "string",
-      "isHidden": false
-    },
-    "status": "locked",
-    "nextTier": {
-      "tier": 1,
-      "name": "string",
-      "description": "string",
-      "requirement": "string",
-      "reward": "string"
-    },
-    "progress": 0
-  }
+    {
+        "achievement": {
+            "id": "string",
+            "category": "string",
+            "name": "string",
+            "description": "string",
+            "isHidden": false
+        },
+        "status": "locked",
+        "nextTier": {
+            "tier": 1,
+            "name": "string",
+            "description": "string",
+            "requirement": "string",
+            "reward": "string"
+        },
+        "progress": 0
+    }
 ]
 ```
 
-- **エラー時 (500):**
+-   **エラー時 (500):**
+
 ```json
 {
-  "error": "Internal server error"
+    "error": "Internal server error"
 }
 ```
 
 **使用例:**
+
 ```bash
 curl -X GET http://localhost:3000/user/123456789/achievements \
   -H "Authorization: Bearer YOUR_API_KEY"
@@ -266,36 +293,39 @@ curl -X GET http://localhost:3000/user/123456789/achievements \
 ## データモデル
 
 ### Achievement
+
 ```typescript
 interface Achievement {
-  id: string;
-  category: string;
-  name: string;
-  description: string;
-  isHidden: boolean;
-  tiers: AchievementTier[];
+    id: string;
+    category: string;
+    name: string;
+    description: string;
+    isHidden: boolean;
+    tiers: AchievementTier[];
 }
 ```
 
 ### AchievementTier
+
 ```typescript
 interface AchievementTier {
-  tier: number;
-  name: string;
-  description: string;
-  requirement: string;
-  reward: string;
+    tier: number;
+    name: string;
+    description: string;
+    requirement: string;
+    reward: string;
 }
 ```
 
 ### UserAchievement
+
 ```typescript
 interface UserAchievement {
-  userId: string;
-  achievementId: string;
-  currentTier: number;
-  currentProgress: number;
-  unlockedAt: Date[];
+    userId: string;
+    achievementId: string;
+    currentTier: number;
+    currentProgress: number;
+    unlockedAt: Date[];
 }
 ```
 
@@ -303,16 +333,16 @@ interface UserAchievement {
 
 ### HTTPステータスコード
 
-- **200**: 成功
-- **400**: 不正なリクエスト（パラメータエラー）
-- **401**: 認証エラー
-- **500**: サーバー内部エラー
+-   **200**: 成功
+-   **400**: 不正なリクエスト（パラメータエラー）
+-   **401**: 認証エラー
+-   **500**: サーバー内部エラー
 
 ### エラーレスポンス形式
 
 ```json
 {
-  "error": "エラーメッセージ"
+    "error": "エラーメッセージ"
 }
 ```
 

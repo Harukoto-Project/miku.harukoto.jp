@@ -91,11 +91,26 @@ Route::middleware('auth')->group(function () {
 
     // アチーブメント関連のAPIルート
     Route::prefix('api/achievements')->group(function () {
-        Route::get('/settings', [App\Http\Controllers\AchievementController::class, 'getUserSettings']);
-        Route::put('/settings', [App\Http\Controllers\AchievementController::class, 'updateUserSettings']);
-        Route::get('/unlocked', [App\Http\Controllers\AchievementController::class, 'getUnlockedAchievements']);
-        Route::get('/locked', [App\Http\Controllers\AchievementController::class, 'getLockedAchievements']);
-        Route::get('/all', [App\Http\Controllers\AchievementController::class, 'getAllAchievements']);
+        Route::get('/settings', [
+            App\Http\Controllers\AchievementController::class,
+            'getUserSettings',
+        ]);
+        Route::put('/settings', [
+            App\Http\Controllers\AchievementController::class,
+            'updateUserSettings',
+        ]);
+        Route::get('/unlocked', [
+            App\Http\Controllers\AchievementController::class,
+            'getUnlockedAchievements',
+        ]);
+        Route::get('/locked', [
+            App\Http\Controllers\AchievementController::class,
+            'getLockedAchievements',
+        ]);
+        Route::get('/all', [
+            App\Http\Controllers\AchievementController::class,
+            'getAllAchievements',
+        ]);
     });
 
     Route::get('/features', function () {

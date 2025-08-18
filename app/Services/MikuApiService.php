@@ -129,11 +129,14 @@ class MikuApiService
     /**
      * 汎用的なAPIリクエストを実行
      */
-    public function makeRequest(string $method, string $endpoint, array $data = []): array
-    {
+    public function makeRequest(
+        string $method,
+        string $endpoint,
+        array $data = [],
+    ): array {
         try {
             $url = "{$this->baseUrl}{$endpoint}";
-            
+
             $request = Http::withHeaders([
                 'Authorization' => $this->apiToken,
                 'Content-Type' => 'application/json',
@@ -144,7 +147,9 @@ class MikuApiService
                 'POST' => $request->post($url, $data),
                 'PUT' => $request->put($url, $data),
                 'DELETE' => $request->delete($url),
-                default => throw new \InvalidArgumentException("Unsupported HTTP method: {$method}")
+                default => throw new \InvalidArgumentException(
+                    "Unsupported HTTP method: {$method}",
+                ),
             };
 
             if ($response->successful()) {
@@ -158,7 +163,9 @@ class MikuApiService
                 'response' => $response->body(),
             ]);
 
-            throw new \Exception("API request failed with status: {$response->status()}");
+            throw new \Exception(
+                "API request failed with status: {$response->status()}",
+            );
         } catch (\Exception $e) {
             Log::error('Error making API request', [
                 'method' => $method,

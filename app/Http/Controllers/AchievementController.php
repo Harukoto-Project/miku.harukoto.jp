@@ -31,18 +31,21 @@ class AchievementController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $settings
+                'data' => $settings,
             ]);
         } catch (\Exception $e) {
             Log::error('アチーブメント設定の取得に失敗しました', [
                 'userId' => $userId ?? 'unknown',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => '設定の取得に失敗しました'
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => '設定の取得に失敗しました',
+                ],
+                500,
+            );
         }
     }
 
@@ -54,7 +57,7 @@ class AchievementController extends Controller
         try {
             $request->validate([
                 'achievementsEnabled' => 'required|boolean',
-                'notificationsEnabled' => 'required|boolean'
+                'notificationsEnabled' => 'required|boolean',
             ]);
 
             $user = Auth::user();
@@ -63,24 +66,27 @@ class AchievementController extends Controller
             $settings = $this->achievementService->updateUserSettings(
                 $userId,
                 $request->achievementsEnabled,
-                $request->notificationsEnabled
+                $request->notificationsEnabled,
             );
 
             return response()->json([
                 'success' => true,
                 'data' => $settings,
-                'message' => '設定が更新されました'
+                'message' => '設定が更新されました',
             ]);
         } catch (\Exception $e) {
             Log::error('アチーブメント設定の更新に失敗しました', [
                 'userId' => $userId ?? 'unknown',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => '設定の更新に失敗しました'
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => '設定の更新に失敗しました',
+                ],
+                500,
+            );
         }
     }
 
@@ -93,22 +99,27 @@ class AchievementController extends Controller
             $user = Auth::user();
             $userId = $user->discord_id ?? $user->id;
 
-            $achievements = $this->achievementService->getUnlockedAchievements($userId);
+            $achievements = $this->achievementService->getUnlockedAchievements(
+                $userId,
+            );
 
             return response()->json([
                 'success' => true,
-                'data' => $achievements
+                'data' => $achievements,
             ]);
         } catch (\Exception $e) {
             Log::error('獲得済みアチーブメントの取得に失敗しました', [
                 'userId' => $userId ?? 'unknown',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'アチーブメントの取得に失敗しました'
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'アチーブメントの取得に失敗しました',
+                ],
+                500,
+            );
         }
     }
 
@@ -121,22 +132,27 @@ class AchievementController extends Controller
             $user = Auth::user();
             $userId = $user->discord_id ?? $user->id;
 
-            $achievements = $this->achievementService->getLockedAchievements($userId);
+            $achievements = $this->achievementService->getLockedAchievements(
+                $userId,
+            );
 
             return response()->json([
                 'success' => true,
-                'data' => $achievements
+                'data' => $achievements,
             ]);
         } catch (\Exception $e) {
             Log::error('未獲得アチーブメントの取得に失敗しました', [
                 'userId' => $userId ?? 'unknown',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'アチーブメントの取得に失敗しました'
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'アチーブメントの取得に失敗しました',
+                ],
+                500,
+            );
         }
     }
 
@@ -149,22 +165,27 @@ class AchievementController extends Controller
             $user = Auth::user();
             $userId = $user->discord_id ?? $user->id;
 
-            $achievements = $this->achievementService->getAllAchievements($userId);
+            $achievements = $this->achievementService->getAllAchievements(
+                $userId,
+            );
 
             return response()->json([
                 'success' => true,
-                'data' => $achievements
+                'data' => $achievements,
             ]);
         } catch (\Exception $e) {
             Log::error('全アチーブメントの取得に失敗しました', [
                 'userId' => $userId ?? 'unknown',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'アチーブメントの取得に失敗しました'
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'アチーブメントの取得に失敗しました',
+                ],
+                500,
+            );
         }
     }
 }
