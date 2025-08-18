@@ -13,14 +13,14 @@
         'image' => auth()->user()->avatar_url ?? asset('images/default-avatar.svg')
     ])
 
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- Alpine.js -->
+    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Styles / Scripts -->
+    
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -29,7 +29,7 @@
 @include('components.header')
 
 <main class="mx-auto max-w-7xl px-6 py-8 lg:px-8" x-data="{ loaded: false }" x-init="setTimeout(() => loaded = true, 100)">
-    <!-- ユーザー情報セクション -->
+    
     <div class="text-center mb-12">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl" 
             x-show="loaded" 
@@ -54,7 +54,7 @@
             <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
                 <div class="p-8">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- アバターと基本情報 -->
+                        
                         <div class="lg:col-span-1">
                             <div class="text-center lg:text-left">
                                 <div class="flex justify-center lg:justify-start">
@@ -78,10 +78,10 @@
                             </div>
                         </div>
 
-                        <!-- 詳細情報 -->
+                        
                         <div class="lg:col-span-2">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- アカウント情報 -->
+                                
                                 <div class="space-y-4">
                                     <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
                                         Harukoto Projectアカウント情報
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Discord情報 -->
+                                
                                 <div class="space-y-4">
                                     <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
                                         Discord情報
@@ -130,7 +130,7 @@
         </div>
     </div>
 
-    <!-- サーバー選択セクション -->
+    
     <div class="mb-12">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center"
             x-show="loaded"
@@ -187,7 +187,7 @@
 
                             <div class="mt-6">
                                 @if($guild['has_miku'])
-                                    <!-- Mikuが導入済みの場合 -->
+                                    
                                     <div class="flex items-center mb-4">
                                         <svg class="h-5 w-5 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -198,7 +198,7 @@
                                         サーバー設定
                                     </a>
                                 @else
-                                    <!-- Mikuが未導入の場合 -->
+                                    
                                     <div class="flex items-center mb-4">
                                         <svg class="h-5 w-5 text-orange-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
@@ -221,7 +221,7 @@
         @endif
     </div>
 
-    <!-- 統計情報セクション -->
+    
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
         <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300"
              x-show="loaded"

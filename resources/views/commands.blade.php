@@ -13,14 +13,14 @@
         'image' => asset('images/default-avatar.svg')
     ])
 
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- Alpine.js -->
+    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Styles / Scripts -->
+    
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -30,7 +30,7 @@
 @include('components.header', ['avatarUrl' => 'https://cdn.discordapp.com/avatars/949873067620966490/b178d5be3d02d1263c80002ad20363f1.png'])
 
 <main class="mx-auto max-w-7xl px-6 py-12 lg:px-8" x-data="commandsPage()">
-    <!-- ページヘッダー -->
+    
     <div class="text-center mb-12">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl mb-4">
             コマンド一覧
@@ -40,7 +40,7 @@
         </p>
     </div>
 
-    <!-- ローディング表示 -->
+    
     <div x-show="loading" class="flex items-center justify-center py-16">
         <div class="text-center">
             <svg class="animate-spin h-12 w-12 text-indigo-600 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <!-- エラー表示 -->
+    
     <div x-show="error && error.title && error.message" class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-700 rounded-md p-6 text-center">
         <div class="flex items-center justify-center mb-4">
             <svg class="h-8 w-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,9 +65,9 @@
         </button>
     </div>
 
-    <!-- コマンド一覧 -->
+    
     <div x-show="!loading && !error" class="space-y-8">
-        <!-- 統計情報 -->
+        
         <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                 <div>
@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <!-- カテゴリ別タブ -->
+        
         <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
             <div class="border-b border-gray-200 dark:border-gray-700">
                 <nav class="flex flex-wrap -mb-px overflow-x-auto">
@@ -101,7 +101,7 @@
                 </nav>
             </div>
 
-            <!-- コマンド一覧 -->
+            
             <div class="p-6">
                 <div x-show="getCommandsByCategory(activeCategory).length === 0" class="text-center py-12">
                     <p class="text-gray-500 dark:text-gray-400">このカテゴリにコマンドはありません</p>
@@ -112,7 +112,7 @@
                 <div x-show="getCommandsByCategory(activeCategory).length > 0" class="space-y-4">
                     <template x-for="command in getCommandsByCategory(activeCategory)" :key="command.id">
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-                            <!-- コマンドヘッダー -->
+                            
                             <button class="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" 
                                     @click="toggleCommand(command.id)">
                                 <div class="flex items-center space-x-3">
@@ -120,7 +120,7 @@
                                     <div>
                                         <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="command.name"></h4>
                                         <p class="text-xs text-gray-600 dark:text-gray-400" x-text="command.description"></p>
-                                        <!-- サブコマンド情報表示 -->
+                                        
                                         <div x-show="hasSubcommands(command)" class="mt-1">
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
                                                 サブコマンド対応
@@ -129,18 +129,18 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <!-- 権限表示 -->
+                                    
                                     <div class="flex space-x-1">
                                         <template x-for="permission in command.defaultMemberPermissions" :key="permission">
                                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200" 
                                                 x-text="getPermissionDisplayName(permission)"></span>
                                         </template>
                                     </div>
-                                    <!-- DM許可表示 -->
+                                    
                                     <span x-show="command.dmPermission" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
                                         DM可
                                     </span>
-                                    <!-- 展開アイコン -->
+                                    
                                     <svg :class="expandedCommands.includes(command.id) ? 'rotate-180' : ''" 
                                         class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" 
                                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,14 +149,14 @@
                                 </div>
                             </button>
 
-                            <!-- コマンド詳細 -->
+                            
                             <div x-show="expandedCommands.includes(command.id)" 
                                 x-transition:enter="transition ease-out duration-300" 
                                 x-transition:enter-start="opacity-0 transform -translate-y-2" 
                                 x-transition:enter-end="opacity-100 transform translate-y-0" 
                                 class="px-4 pb-4 border-t border-gray-200 dark:border-gray-600">
                                 
-                                <!-- 基本情報 -->
+                                
                                 <div class="mt-4 space-y-3">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
@@ -170,12 +170,12 @@
                                     </div>
                                 </div>
 
-                                                                <!-- サブコマンド構造の表示 -->
+                                                                
                                 <div x-show="hasSubcommands(command)" class="mt-6">
                                     <h5 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">サブコマンド構造</h5>
                                     <div class="space-y-3">
                                         <template x-for="option in command.options" :key="option.name">
-                                            <!-- サブコマンドグループ (type: 2) -->
+                                            
                                             <div x-show="option.type === 2" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-200">
                                                 <div class="w-full px-4 py-3 flex items-center justify-between">
                                                     <div class="flex items-center space-x-3">
@@ -195,7 +195,7 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <!-- サブコマンドグループ内のサブコマンド（常に表示） -->
+                                                
                                                 <div class="px-4 pb-4 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
                                                     <div class="mt-4 space-y-3">
                                                         <template x-for="subOption in option.options" :key="subOption.name">
@@ -220,10 +220,10 @@
                                                                     </div>
                                                                 </div>
                                                                 
-                                                                <!-- サブコマンドの引数（常に表示） -->
+                                                                
                                                                 <div class="px-4 pb-4 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
                                                                     <div class="mt-4 space-y-4">
-                                                                        <!-- サブコマンドの引数 -->
+                                                                        
                                                                         <div x-show="subOption.options && subOption.options.length > 0">
                                                                             <h5 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3 flex items-center space-x-2">
                                                                                 <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,7 +248,7 @@
                                                                                         </div>
                                                                                         <p class="text-xs text-gray-600 dark:text-gray-400 mb-2" x-text="argument.description"></p>
                                                                                         
-                                                                                        <!-- 引数の詳細 -->
+                                                                                        
                                                                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-500 dark:text-gray-400">
                                                                                             <template x-if="argument.minLength !== undefined">
                                                                                                 <span>最小文字数: <span x-text="argument.minLength"></span></span>
@@ -274,7 +274,7 @@
                                                                             </div>
                                                                         </div>
                                                                         
-                                                                        <!-- 引数がない場合 -->
+                                                                        
                                                                         <div x-show="!subOption.options || subOption.options.length === 0" class="text-center py-3">
                                                                             <p class="text-sm text-gray-500 dark:text-gray-400">このサブコマンドには引数がありません</p>
                                                                         </div>
@@ -286,7 +286,7 @@
                                                 </div>
                                             </div>
                                             
-                                            <!-- サブコマンド（直接のサブコマンド、type: 1） -->
+                                            
                                             <div x-show="option.type === 1" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-200">
                                                 <div class="w-full px-4 py-3 flex items-center justify-between">
                                                     <div class="flex items-center space-x-3">
@@ -308,10 +308,10 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <!-- サブコマンドの引数（常に表示） -->
+                                                
                                                 <div class="px-4 pb-4 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
                                                     <div class="mt-4 space-y-4">
-                                                                        <!-- サブコマンドの引数 -->
+                                                                        
                                                                         <div x-show="option.options && option.options.length > 0">
                                                                             <h5 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3 flex items-center space-x-2">
                                                                                 <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -336,7 +336,7 @@
                                                                         </div>
                                                                         <p class="text-xs text-gray-600 dark:text-gray-400 mb-2" x-text="argument.description"></p>
                                                                         
-                                                                        <!-- 引数の詳細 -->
+                                                                        
                                                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-500 dark:text-gray-400">
                                                                             <template x-if="argument.minLength !== undefined">
                                                                                 <span>最小文字数: <span x-text="argument.minLength"></span></span>
@@ -362,7 +362,7 @@
                                                             </div>
                                                         </div>
                                                         
-                                                        <!-- 引数がない場合 -->
+                                                        
                                                         <div x-show="!option.options || option.options.length === 0" class="text-center py-3">
                                                             <p class="text-sm text-gray-500 dark:text-gray-400">このサブコマンドには引数がありません</p>
                                                         </div>
@@ -373,7 +373,7 @@
                                     </div>
                                 </div>
 
-                                <!-- 通常のオプション情報（サブコマンド以外） -->
+                                
                                 <div x-show="!hasSubcommands(command) && command.options && command.options.length > 0" class="mt-4">
                                     <h5 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">オプション</h5>
                                     <div class="space-y-3">
@@ -394,7 +394,7 @@
                                     </div>
                                 </div>
 
-                                <!-- オプションなしの場合 -->
+                                
                                 <div x-show="!hasSubcommands(command) && (!command.options || command.options.length === 0)" class="mt-4 text-center py-3">
                                     <p class="text-sm text-gray-500 dark:text-gray-400">このコマンドにはオプションがありません</p>
                                 </div>

@@ -5,11 +5,11 @@
     </div>
 
     <form @submit.prevent="updateProfile" class="space-y-6">
-        <!-- アバター設定 -->
+        
         <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">アバター設定</h3>
             <div class="flex items-center space-x-6">
-                <!-- 現在のアバター表示 -->
+                
                 <div class="flex-shrink-0">
                     <div class="relative group">
                         <img 
@@ -18,7 +18,7 @@
                             class="h-24 w-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
                             x-on:error="avatarUrl = '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}'"
                         >
-                        <!-- 削除ボタン（右上に×マーク） -->
+                        
                         <button 
                             x-show="avatarUrl && avatarUrl !== '{{ $user->avatar_url ?? "/images/default-avatar.svg" }}'"
                             type="button" 
@@ -28,7 +28,7 @@
                         >
                             ×
                         </button>
-                        <!-- ローディング表示 -->
+                        
                         <div x-show="avatarLoading" class="absolute inset-0 bg-gray-900 bg-opacity-50 rounded-full flex items-center justify-center">
                             <svg class="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -38,14 +38,14 @@
                     </div>
                 </div>
                 
-                <!-- アバターアップロード -->
+                
                 <div class="flex-1">
                     <div class="space-y-3">
                         <div>
                             <label for="avatar" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 アバター画像
                             </label>
-                            <!-- ドラッグアンドドロップエリア -->
+                            
                             <div 
                                 x-ref="dropZone"
                                 @dragover.prevent="dropZone.classList.add('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/20')"
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <!-- 表示名 -->
+        
         <div>
             <label for="display_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 表示名
@@ -93,7 +93,7 @@
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">この名前がポートフォリオページに表示されます</p>
         </div>
 
-        <!-- 自己紹介 -->
+        
         <div>
             <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 自己紹介
@@ -109,7 +109,7 @@
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">最大1000文字まで入力できます</p>
         </div>
 
-        <!-- 代名詞 -->
+        
         <div>
             <label for="pronouns" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 代名詞
@@ -124,7 +124,7 @@
             >
         </div>
 
-        <!-- 場所 -->
+        
         <div>
             <label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 場所
@@ -139,14 +139,14 @@
             >
         </div>
 
-        <!-- テーマエディター -->
+        
         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
             <div class="mb-4">
                 <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">テーマエディター</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">プロフィールページの色をカスタマイズできます</p>
             </div>
 
-            <!-- プリセットテーマ -->
+            
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">プリセットテーマ</label>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -213,10 +213,10 @@
                 </div>
             </div>
 
-            <!-- カラー設定 -->
+            
             <div class="space-y-6">
                 <div class="grid gap-6 md:grid-cols-2">
-                    <!-- カード背景色 -->
+                    
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
                             <label class="text-sm font-medium text-gray-700 dark:text-gray-300">カード背景色</label>
@@ -236,13 +236,13 @@
                             </div>
                         </div>
 
-                        <!-- プレビュー -->
+                        
                         <div 
                             class="h-8 w-full rounded border border-gray-300 dark:border-gray-600"
                             :style="getGradientStyle('card')"
                         ></div>
 
-                        <!-- 単色設定 -->
+                        
                         <div x-show="!form.card_gradient_enabled" class="space-y-2">
                             <div class="flex items-center space-x-2">
                                 <input type="color" x-model="form.card_background_color" class="h-8 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer">
@@ -250,9 +250,9 @@
                             </div>
                         </div>
 
-                        <!-- グラデーション設定 -->
+                        
                         <div x-show="form.card_gradient_enabled" class="space-y-3">
-                            <!-- 方向設定 -->
+                            
                             <div>
                                 <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                                     方向: <span x-text="form.card_gradient_direction"></span>°
@@ -274,7 +274,7 @@
                                 </div>
                             </div>
 
-                            <!-- カラーストップ -->
+                            
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-600 dark:text-gray-400">
@@ -326,7 +326,7 @@
                         </div>
                     </div>
 
-                    <!-- ページ背景色 -->
+                    
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
                             <label class="text-sm font-medium text-gray-700 dark:text-gray-300">ページ背景色</label>
@@ -346,13 +346,13 @@
                             </div>
                         </div>
 
-                        <!-- プレビュー -->
+                        
                         <div 
                             class="h-8 w-full rounded border border-gray-300 dark:border-gray-600"
                             :style="getGradientStyle('page')"
                         ></div>
 
-                        <!-- 単色設定 -->
+                        
                         <div x-show="!form.page_gradient_enabled" class="space-y-2">
                             <div class="flex items-center space-x-2">
                                 <input type="color" x-model="form.page_background_color" class="h-8 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer">
@@ -360,9 +360,9 @@
                             </div>
                         </div>
 
-                        <!-- グラデーション設定 -->
+                        
                         <div x-show="form.page_gradient_enabled" class="space-y-3">
-                            <!-- 方向設定 -->
+                            
                             <div>
                                 <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                                     方向: <span x-text="form.page_gradient_direction"></span>°
@@ -384,7 +384,7 @@
                                 </div>
                             </div>
 
-                            <!-- カラーストップ -->
+                            
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-600 dark:text-gray-400">
@@ -436,7 +436,7 @@
                         </div>
                     </div>
 
-                    <!-- 自己紹介カード色 -->
+                    
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
                             <label class="text-sm font-medium text-gray-700 dark:text-gray-300">自己紹介カード色</label>
@@ -456,13 +456,13 @@
                             </div>
                         </div>
 
-                        <!-- プレビュー -->
+                        
                         <div 
                             class="h-8 w-full rounded border border-gray-300 dark:border-gray-600"
                             :style="getGradientStyle('bio_card')"
                         ></div>
 
-                        <!-- 単色設定 -->
+                        
                         <div x-show="!form.bio_card_gradient_enabled" class="space-y-2">
                             <div class="flex items-center space-x-2">
                                 <input type="color" x-model="form.bio_card_color" name="bio_card_color" class="h-8 w-16 border border-gray-300 dark:border-gray-600 rounded cursor-pointer" @change="updateBioCardColor">
@@ -475,9 +475,9 @@
                             </div>
                         </div>
 
-                        <!-- グラデーション設定 -->
+                        
                         <div x-show="form.bio_card_gradient_enabled" class="space-y-3">
-                            <!-- 方向設定 -->
+                            
                             <div>
                                 <label class="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                                     方向: <span x-text="form.bio_card_gradient_direction"></span>°
@@ -499,7 +499,7 @@
                                 </div>
                             </div>
 
-                            <!-- カラーストップ -->
+                            
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-600 dark:text-gray-400">
@@ -551,7 +551,7 @@
                         </div>
                     </div>
 
-                    <!-- その他の色設定 -->
+                    
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">プロフィール名色</label>
                         <div class="flex items-center space-x-2">
@@ -595,7 +595,7 @@
             </div>
         </div>
 
-        <!-- 公開設定 -->
+        
         <div class="flex items-center">
             <input 
                 type="checkbox" 
@@ -609,7 +609,7 @@
             </label>
         </div>
 
-        <!-- 保存ボタン -->
+        
         <div class="flex justify-end space-x-3">
             <button 
                 type="submit" 
@@ -622,7 +622,7 @@
         </div>
     </form>
 
-    <!-- 自分のプロフィールページを見るボタン -->
+    
     <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
         <div class="flex items-center justify-between">
             <div>
@@ -649,7 +649,7 @@
         </div>
     </div>
 
-    <!-- 成功メッセージ -->
+    
     <div x-show="success" x-transition class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4">
         <div class="flex">
             <div class="flex-shrink-0">
@@ -663,7 +663,7 @@
         </div>
     </div>
 
-    <!-- エラーメッセージ -->
+    
     <div x-show="error" x-transition class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
         <div class="flex">
             <div class="flex-shrink-0">
@@ -677,13 +677,13 @@
         </div>
     </div>
 
-    <!-- アバター削除確認モーダル -->
+    
     <div x-show="showDeleteModal" x-transition class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <!-- 背景オーバーレイ -->
+            
             <div class="fixed inset-0 bg-black opacity-75 z-40" @click="showDeleteModal = false"></div>
 
-            <!-- モーダルコンテンツ -->
+            
             <div class="relative z-50 inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">

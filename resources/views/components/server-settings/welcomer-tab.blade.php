@@ -1,5 +1,5 @@
 <div x-data="welcomerSettings()" x-init="init()" class="space-y-8">
-    <!-- ローディング・スケルトン -->
+    
     <template x-if="isLoading">
         <div class="space-y-8 animate-pulse">
             <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-700">
@@ -22,7 +22,7 @@
     </template>
 
     <div x-show="!isLoading" x-transition.opacity.scale class="space-y-8">
-        <!-- 参加時の設定 -->
+        
         <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between mb-6">
                 <div>
@@ -73,7 +73,7 @@
                     </p>
                 </div>
 
-                <!-- 保存ボタン -->
+                
                 <div class="flex justify-end">
                     <button 
                         @click="updateJoinSettings()"
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <!-- 退出時の設定 -->
+        
         <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between mb-6">
                 <div>
@@ -140,7 +140,7 @@
                     </p>
                 </div>
 
-                <!-- 保存ボタン -->
+                
                 <div class="flex justify-end">
                     <button 
                         @click="updateLeaveSettings()"
@@ -156,7 +156,7 @@
             </div>
         </div>
 
-        <!-- 保存状態表示 -->
+        
         <div x-show="saveStatus.show" x-transition class="fixed bottom-4 right-4">
             <div :class="saveStatus.type === 'success' ? 'bg-green-500' : 'bg-red-500'" 
                  class="text-white px-6 py-3 rounded-lg shadow-lg">

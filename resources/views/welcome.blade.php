@@ -13,14 +13,14 @@
         'image' => asset('images/default-avatar.svg')
     ])
 
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- Alpine.js -->
+    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Styles / Scripts -->
+    
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -63,7 +63,7 @@
 
 @include('components.header', ['avatarUrl' => 'https://cdn.discordapp.com/avatars/949873067620966490/b178d5be3d02d1263c80002ad20363f1.png'])
 
-<!-- ヒーローセクション -->
+
 <main class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
     <div class="text-center">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl">
@@ -89,7 +89,7 @@
     </div>
 </main>
 
-<!-- 主要機能セクション -->
+
 <section class="py-16 bg-gray-50 dark:bg-gray-800">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="text-center mb-16">
@@ -102,7 +102,7 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- 音楽・音声機能 -->
+            
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,7 +118,7 @@
                 </ul>
             </div>
 
-            <!-- ゲーミフィケーション -->
+            
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +134,7 @@
                 </ul>
             </div>
 
-            <!-- サーバー管理 -->
+            
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,7 +151,7 @@
                 </ul>
             </div>
 
-            <!-- AI・自動化機能 -->
+            
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@
                 </ul>
             </div>
 
-            <!-- ユーティリティ機能 -->
+            
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@
                 </ul>
             </div>
 
-            <!-- 統計・分析 -->
+            
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
                 <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-lg flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +202,7 @@
     </div>
 </section>
 
-<!-- 統計情報セクション -->
+
 <section class="py-16 bg-indigo-600">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
@@ -226,7 +226,7 @@
     </div>
 </section>
 
-<!-- CTAセクション -->
+
 <section class="py-16 bg-white dark:bg-gray-900">
     <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl mb-6">
@@ -252,7 +252,7 @@
     </div>
 </section>
 
-<!-- フッター -->
+
 <footer class="bg-gray-900 text-white">
     <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

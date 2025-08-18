@@ -13,14 +13,14 @@
         'image' => $user->avatar_url ?? asset('images/default-avatar.svg')
     ])
 
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- Alpine.js -->
+    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Styles / Scripts -->
+    
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -29,7 +29,7 @@
 @include('components.header')
 
 <main class="mx-auto max-w-7xl px-6 py-8 lg:px-8" x-data="{ activeTab: 'account', loaded: false }" x-init="setTimeout(() => loaded = true, 100)">
-    <!-- ヘッダーセクション -->
+    
     <div class="mb-8">
         <div class="flex items-center space-x-4">
             <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <!-- タブナビゲーション -->
+    
     <div class="mb-8" x-show="loaded" x-transition:enter="transition ease-out duration-700 delay-400">
         <nav class="flex space-x-8 justify-center" aria-label="Tabs">
             <button @click="activeTab = 'account'" 
@@ -78,42 +78,42 @@
         </nav>
     </div>
 
-    <!-- タブコンテンツ -->
+    
     <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
          x-show="loaded"
          x-transition:enter="transition ease-out duration-700 delay-600"
          x-transition:enter-start="opacity-0 transform translate-y-8"
          x-transition:enter-end="opacity-100 transform translate-y-0">
 
-                <!-- アカウント情報タブ -->
+                
         <div x-show="activeTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="px-6 py-8">
                 @include('components.account-settings.account-tab')
             </div>
         </div>
 
-        <!-- 連携済みサービスタブ -->
+        
         <div x-show="activeTab === 'services'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="px-6 py-8">
                 @include('components.account-settings.services-tab')
             </div>
         </div>
 
-        <!-- プロフィールタブ -->
+        
         <div x-show="activeTab === 'profile'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="px-6 py-8">
                 @include('components.account-settings.profile-tab')
             </div>
         </div>
 
-        <!-- モジュール設定タブ -->
+        
         <div x-show="activeTab === 'module'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="px-6 py-8">
                 @include('components.account-settings.module-tab')
             </div>
         </div>
 
-        <!-- フォーム設定タブ -->
+        
         <div x-show="activeTab === 'form'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="px-6 py-8">
                 @include('components.account-settings.form-tab')

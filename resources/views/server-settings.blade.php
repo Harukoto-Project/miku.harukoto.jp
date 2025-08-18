@@ -13,14 +13,14 @@
         'image' => $guild['icon_url'] ?? asset('images/default-avatar.svg')
     ])
 
-    <!-- Fonts -->
+    
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <!-- Alpine.js -->
+    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Styles / Scripts -->
+    
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
@@ -29,7 +29,7 @@
 @include('components.header')
 
 <main class="mx-auto max-w-7xl px-6 py-8 lg:px-8">
-    <!-- ヘッダーセクション -->
+    
     <div class="mb-8">
         <div class="flex items-center space-x-4">
             <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
@@ -48,7 +48,7 @@
     </div>
 
     <div x-data="{ activeTab: 'welcomer' }">
-        <!-- タブナビゲーション（青色ボーダーのモダンなタブ） -->
+        
         <div class="mb-8">
             <div class="px-2 pb-0">
                 <nav class="flex space-x-8" aria-label="Tabs">
@@ -80,18 +80,18 @@
             </div>
         </div>
 
-        <!-- タブコンテンツ（ふわっと浮き出るアニメーション） -->
-        <!-- Welcomerタブ -->
+        
+        
         <div x-show="activeTab === 'welcomer'" x-transition.opacity.scale>
             @include('components.server-settings.welcomer-tab')
         </div>
 
-        <!-- 一般設定タブ -->
+        
         <div x-show="activeTab === 'general'" x-transition.opacity.scale>
             @include('components.server-settings.general-tab')
         </div>
 
-        <!-- モデレーションタブ -->
+        
         <div x-show="activeTab === 'moderation'" x-transition.opacity.scale>
             @include('components.server-settings.moderation-tab')
         </div>

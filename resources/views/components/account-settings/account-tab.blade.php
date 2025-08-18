@@ -1,10 +1,9 @@
-<!-- 基本情報セクション -->
 <div class="space-y-4">
     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 pb-2">
         基本情報（読み取り専用）
     </h3>
-    
-    <!-- 表示名 -->
+
+
     <div>
         <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
             表示名
@@ -14,7 +13,7 @@
         </p>
     </div>
 
-    <!-- メールアドレス -->
+
     <div>
         <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
             メールアドレス
