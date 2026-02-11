@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServerSettingsController;
+use App\Http\Controllers\LevelingSettingsController;
 use App\Http\Controllers\WelcomerSettingsController;
 use App\Http\Controllers\UserSettingsController;
 use App\Http\Controllers\AccountSettingsController;
@@ -86,6 +87,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/channels', [
             WelcomerSettingsController::class,
             'getChannels',
+        ]);
+    });
+
+    Route::prefix('api/guild/{guildId}/settings/leveling')->group(function () {
+        Route::get('/rewards', [
+            LevelingSettingsController::class,
+            'getRewards',
+        ]);
+        Route::post('/rewards', [
+            LevelingSettingsController::class,
+            'updateRewards',
+        ]);
+        Route::get('/roles', [
+            LevelingSettingsController::class,
+            'getRoles',
         ]);
     });
 

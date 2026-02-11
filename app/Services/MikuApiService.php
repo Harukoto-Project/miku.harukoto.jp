@@ -88,6 +88,71 @@ class MikuApiService
         }
     }
 
+    public function getLevelingRewards(string $guildId): ?array
+    {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => $this->apiToken,
+            ])->get("{$this->baseUrl}/guild/{$guildId}/settings/leveling/rewards");
+
+            if ($response->successful()) {
+                return $response->json('rewards') ?? $response->json();
+            }
+
+            if ($response->status() === 404) {
+                return null;
+            }
+
+            Log::error('Failed to fetch leveling rewards', [
+                'guild_id' => $guildId,
+                'status' => $response->status(),
+                'response' => $response->body(),
+            ]);
+
+            return null;
+        } catch (\Exception $e) {
+            Log::error('Error fetching leveling rewards', [
+                'guild_id' => $guildId,
+                'message' => $e->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    public function updateLevelingRewards(string $guildId, array $rewards): bool
+    {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => $this->apiToken,
+                'Content-Type' => 'application/json',
+            ])->put(
+                "{$this->baseUrl}/guild/{$guildId}/settings/leveling/rewards",
+                ['rewards' => $rewards],
+            );
+
+            if ($response->successful()) {
+                Log::info('Leveling rewards updated successfully', [
+                    'guild_id' => $guildId,
+                ]);
+                return true;
+            }
+
+            Log::error('Failed to update leveling rewards', [
+                'guild_id' => $guildId,
+                'status' => $response->status(),
+                'response' => $response->body(),
+            ]);
+
+            return false;
+        } catch (\Exception $e) {
+            Log::error('Error updating leveling rewards', [
+                'guild_id' => $guildId,
+                'message' => $e->getMessage(),
+            ]);
+            return false;
+        }
+    }
+
     /**
      * 退出時のWelcomer設定を更新
      */

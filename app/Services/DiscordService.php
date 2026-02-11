@@ -235,6 +235,62 @@ class DiscordService
         }
     }
 
+    public function getGuildRoles(string $guildId): array
+    {
+        try {
+            $botToken = config('services.discord.bot_token');
+
+            if (empty($botToken)) {
+                Log::error('Bot token not configured');
+                return [];
+            }
+
+            $httpOptions = [
+                'verify' => false,
+                'timeout' => 30,
+                'connect_timeout' => 30,
+                'curl' => [
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false,
+                ],
+            ];
+
+            $response = Http::withOptions($httpOptions)
+                ->withHeaders([
+                    'Authorization' => 'Bot ' . $botToken,
+                    'User-Agent' => 'DiscordBot (Laravel App, 1.0)',
+                ])
+                ->get("https://discord.com/api/guilds/{$guildId}/roles");
+
+            if (!$response->successful()) {
+                Log::error('Failed to fetch guild roles', [
+                    'guild_id' => $guildId,
+                    'status' => $response->status(),
+                    'response' => $response->body(),
+                ]);
+                return [];
+            }
+
+            $roles = $response->json();
+
+            return array_map(
+                function ($role) {
+                    return [
+                        'id' => $role['id'],
+                        'name' => $role['name'],
+                    ];
+                },
+                $roles,
+            );
+        } catch (\Exception $e) {
+            Log::error('Error fetching guild roles', [
+                'guild_id' => $guildId,
+                'message' => $e->getMessage(),
+            ]);
+            return [];
+        }
+    }
+
     /**
      * サーバーアイコンのURLを生成
      */
